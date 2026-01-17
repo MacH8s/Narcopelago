@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from Options import (Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions, 
-                    Range, Toggle)
+                    Range, DeathLink)
 
 # In this file, we define the options the player can pick.
 # The most common types of options are Toggle, Range and Choice.
@@ -56,7 +56,7 @@ class NumberOfXpBundles(Range):
     If 1 bundle is chosen, only the minimum xp bundle will be in the item pool.
     """
     range_start = 0
-    range_end = 100
+    range_end = 20
     default = 12
 
 
@@ -91,8 +91,8 @@ class NumberOfCashBundles(Range):
     Defaults will give out ~87k cash with 20 bundles. 46 bundles gives out ~200k cash.
     """
     range_start = 0
-    range_end = 100
-    default = 20
+    range_end = 20
+    default = 12
 
 
 class AmountOfCashPerBundleMin(Range):
@@ -155,15 +155,15 @@ class RandomizeCartelInfluence(DefaultOnToggle):
     display_name = "Randomize Cartel Influence"
 
 
-class CartelInfluenceChecksPerRegion(Range):
+class CartelInfluenceItemsPerRegion(Range):
     """
-    Number of cartel influence checks to include in the item pool per region.
+    Number of cartel influence Items to include in the item pool per region.
     Each check is worth 100 cartel influence.
     7 needed to unlock region, recommend to add extra of each region.
     This option is only relevant if Randomize Cartel Influence is enabled.
     """
     range_start = 7
-    range_end = 20
+    range_end = 12
     default = 10
 
 
@@ -194,21 +194,13 @@ class RandomizeDealers(DefaultOnToggle):
     display_name = "Randomize Dealers"
 
 
-class RandomizeCustomers(Choice):
+class RandomizeCustomers(DefaultOnToggle):
     """
     Determines if customers will be added into the item pool.
-    - None: Do not randomize customers
-    - Checks: Unlocking customers are a check that also unlocks the customer.
-    - Full: Customers are randomized into the item pool. Unlocking customers in game is only a check.
+    Customers are checks regardless if this is toggled on or off
+    Player can still get successful samples as checks
     """
     display_name = "Randomize Customers"
-
-    option_none = 0
-    option_checks = 1
-    option_full = 2
-    random = 3
-
-    default = option_checks
 
 class RecipeChecks(Range):
     """
@@ -228,7 +220,15 @@ class CashForTrash(Range):
     range_start = 0
     range_end = 50
     default = 5
-    
+
+class Schedule1DeathLink(DeathLink):
+    """
+    When enabled, DeathLink is active in the game.
+    Deathlink is sent when a player a arreseted in-game.
+    Recieved Deathlink will cause the player to be arrested
+    """
+    display_name = "Death Link Test"
+
 
 # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # This is in the format "option_name_in_snake_case: OptionClassName".
@@ -245,13 +245,14 @@ class Schedule1Options(PerGameCommonOptions):
     amount_of_cash_per_bundle_max: AmountOfCashPerBundleMax
     randomize_level_unlocks: RandomizeLevelUnlocks
     randomize_cartel_influence: RandomizeCartelInfluence
-    cartel_influence_checks_per_region: CartelInfluenceChecksPerRegion
+    cartel_influence_items_per_region: CartelInfluenceItemsPerRegion
     randomize_drug_making_properties: RandomizeDrugMakingProperties
     randomize_business_properties: RandomizeBusinessProperties
     randomize_dealers: RandomizeDealers
     randomize_customers: RandomizeCustomers
     recipe_checks: RecipeChecks
     cash_for_trash: CashForTrash
+    deathlink: Schedule1DeathLink
 
 
 
@@ -263,7 +264,7 @@ option_groups = [
          AmountOfCashPerBundleMin, AmountOfCashPerBundleMax, NetworthAmountRequired, FillerItemPoolType,
          RandomizeCartelInfluence, RandomizeDrugMakingProperties, RandomizeLevelUnlocks,
          RandomizeBusinessProperties, RandomizeDealers, RandomizeCustomers, RecipeChecks, CashForTrash,
-         CartelInfluenceChecksPerRegion],
+         CartelInfluenceItemsPerRegion, Schedule1DeathLink],
     )
 ]
 
@@ -283,10 +284,11 @@ option_presets = {
         "randomize_drug_making_properties": True,
         "randomize_business_properties": True,
         "randomize_dealers": True,
-        "randomize_customers": RandomizeCustomers.default,
-        "cartel_influence_checks_per_region": CartelInfluenceChecksPerRegion.default,
+        "randomize_customers": True,
+        "cartel_influence_items_per_region": CartelInfluenceItemsPerRegion.default,
         "recipe_checks": RecipeChecks.default,
         "cash_for_trash": CashForTrash.default,
         "randomize_level_unlocks": True,
+        "deathlink": Schedule1DeathLink.default,
     }
 }
