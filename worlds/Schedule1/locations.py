@@ -83,22 +83,22 @@ def create_regular_locations(world: Schedule1World, data) -> None:
     # Customer locations - extract from LOCATION_NAME_TO_ID and group by region
     customer_region_northtown.add_locations(get_location_names_with_ids(
         loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Northtown"), Schedule1Location)
-    customer_region_northtown.add_locations(get_location_names_with_ids(
+            if loc.region == "Customer Northtown" and "Dealer" not in loc.tags), Schedule1Location)
+    customer_region_westville.add_locations(get_location_names_with_ids(
         loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Westville"), Schedule1Location)
-    customer_region_northtown.add_locations(get_location_names_with_ids(
+            if loc.region == "Customer Westville" and "Dealer" not in loc.tags), Schedule1Location)
+    customer_region_downtown.add_locations(get_location_names_with_ids(
         loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Downtown"), Schedule1Location)
-    customer_region_northtown.add_locations(get_location_names_with_ids(
+            if loc.region == "Customer Downtown" and "Dealer" not in loc.tags), Schedule1Location)
+    customer_region_docks.add_locations(get_location_names_with_ids(
         loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Docks"), Schedule1Location)
-    customer_region_northtown.add_locations(get_location_names_with_ids(
+            if loc.region == "Customer Docks" and "Dealer" not in loc.tags), Schedule1Location)
+    customer_region_suburbia.add_locations(get_location_names_with_ids(
         loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Suburbia"), Schedule1Location)
-    customer_region_northtown.add_locations(get_location_names_with_ids(
+            if loc.region == "Customer Suburbia" and "Dealer" not in loc.tags), Schedule1Location)
+    customer_region_uptown.add_locations(get_location_names_with_ids(
         loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Uptown"), Schedule1Location)
+            if loc.region == "Customer Uptown" and "Dealer" not in loc.tags), Schedule1Location)
     
     if not world.options.randomize_cartel_influence:
         cartel_region_westville = world.get_region("Cartel Westville")
@@ -161,7 +161,6 @@ def create_regular_locations(world: Schedule1World, data) -> None:
         overworld.add_locations(cash_for_trash_locations_dict, Schedule1Location)
 
     # Recruit Dealer locations - add to their respective regions - match them to customer regions
-    # Hardcoding these are fine as it's 1 name for each region.
     if not world.options.randomize_dealers:
         westville_dealer_location = get_location_names_with_ids(["Recruit Westville Dealer: Molly Presley"])
         customer_region_westville.add_locations(westville_dealer_location, Schedule1Location)
@@ -180,7 +179,14 @@ def create_events(world: Schedule1World, data) -> None:
     # We need to associate an event location/ event item for each mission completion.
     # This gives us a way to link missions
     regions = { "Overworld" : world.get_region("Overworld"),
-                "Missions" : world.get_region("Missions") }
+                "Missions" : world.get_region("Missions"),
+                "Level Unlocks" : world.get_region("Level Unlocks"),
+                "Customer Northtown" : world.get_region("Customer Northtown"),
+                "Customer Westville" : world.get_region("Customer Westville"),
+                "Customer Downtown" : world.get_region("Customer Downtown"),
+                "Customer Docks" : world.get_region("Customer Docks"),
+                "Customer Suburbia" : world.get_region("Customer Suburbia"),
+                "Customer Uptown" : world.get_region("Customer Uptown")} 
     
     # If goal is not "Reach Networth Goal", include Cartel Defeated event
     if world.options.goal != 1:

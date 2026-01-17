@@ -119,7 +119,9 @@ def set_all_entrance_rules(world: Schedule1World) -> None:
     
     # True for the time being, but could be randomized in the future
     def can_access_weed_recipe_checks(state: CollectionState) -> bool:
-        return True
+        if state.has_any(["Mixing Station Mk II Unlock", "Mixing Station Unlock"], world.player):
+            return True
+        return False
     
     def can_access_meth_recipe_checks(state: CollectionState) -> bool:
         if world.options.randomize_level_unlocks:
@@ -127,57 +129,39 @@ def set_all_entrance_rules(world: Schedule1World) -> None:
                               "Acid Unlock",
                               "Phosphorus Unlock",
                               "Chemistry Station Unlock",
-                              "Lab Oven Unlock"), world.player):
+                              "Lab Oven Unlock",
+                              "Unlocked Meg or Jerry"), world.player) and state.has_any(
+                                  ( "Mixing Station Unlock", 
+                                    "Mixing Station Mk II Unlock"), world.player):
                 return True
-            else:
-                return False
-        return True
+        elif state.has_all(("Unlocked Meg or Jerry", "Rank Hoodlum V Reached"), world.player):
+            return True 
+        return False
     
     def can_access_shrooms_recipe_checks(state: CollectionState) -> bool:
         if world.options.randomize_customers:
-            if state.has_any(("Elizabeth Homley Unlocked",
-                              "Kevin Oakley Unlocked"), world.player):
+            if state.has(("Unlocked Elizabeth or Kevin"), world.player) and state.has_any(
+                                  ( "Mixing Station Unlock", 
+                                    "Mixing Station Mk II Unlock"), world.player):
                 return True
-            else:
-                return False
-        return True
+        return False
     
     def can_access_cocaine_recipe_checks(state: CollectionState) -> bool:
-        if world.options.randomize_level_unlocks and world.options.randomize_customers:
-            if state.has_any(("Mac Cooper Unlocked",
-                              "Javier Perez Unlocked"), world.player):
-                if state.has_all(("Coca Seed Unlock",
-                                  "Cauldron Unlock",
-                                  "Lab Oven Unlock",
-                                  "Gasoline Unlock"), world.player):
-                    return True
-                else:
-                    return False
-            else:
-                return False
-        elif world.options.randomize_level_unlocks:
-            if state.has_all(("Coca Seed Unlock",
-                              "Cauldron Unlock",
-                              "Lab Oven Unlock",
-                              "Gasoline Unlock"), world.player):
+        if world.options.randomize_level_unlocks: 
+            if  state.has_all(("Coca Seed Unlock",
+                                "Cauldron Unlock",
+                                "Lab Oven Unlock",
+                                "Gasoline Unlock",
+                                "Unlocked Javier or Mac"), world.player) and state.has_any(
+                                    ( "Mixing Station Unlock", 
+                                    "Mixing Station Mk II Unlock"), world.player):
                 return True
-            else:
-                return False
-        elif world.options.randomize_customers:
-            if state.has_any(("Mac Cooper Unlocked",
-                              "Javier Perez Unlocked"), world.player):
-                return True
-            else:
-                return False
-        return True
+        elif state.has_all(("Unlocked Javier or Mac", "Rank Enforcer I Reached"), world.player):
+            return True
+        return False
     
     def can_access_realtor(state: CollectionState) -> bool:
         return True # Always accessible for now
-
-    def can_access_cash_for_trash(state: CollectionState) -> bool:
-        if world.options.cash_for_trash > 0:
-            return True
-        return False
     
     # Now we can set our "can_destroy_bush" rule to our entrance which requires slashing a bush to clear the path.
     # One way to set rules is via the set_rule() function, which works on both Entrances and Locations.
@@ -217,43 +201,176 @@ def set_all_entrance_rules(world: Schedule1World) -> None:
     
 
 def set_all_location_rules(world: Schedule1World, locationData, eventData) -> None:
-    
+    # NOTE: I had to hardcode these requirement types because it was impossible to pass function references
+
     # Reference for relevant locations
     locations = {}
+    # Used to store requirements from events/locations
+    requirements = {}
+    requirements_type = ""
 
+    # locations
+    for location in locationData.locations.values():
+        if "Permanent" in location.tags:
+            locations[location.name] = world.get_location(location.name)
+        elif world.options.randomize_level_unlocks:
+            if "Level Up Reward" in location.tags:
+                locations[location.name] = world.get_location(location.name)
+
+    # events
     for event in eventData.events.values():
         if "Permanent" in event.tags:
             locations[event.locationName] = world.get_location(event.locationName)
-
-    if world.options.goal != 1:
-        for event in eventData.events.values():
+        if world.options.goal != 1:
             if "Cartel" in event.tags:
                 locations[event.locationName] = world.get_location(event.locationName)
-    
-    if world.options.goal < 2:
-        for event in eventData.events.values():
+        if world.options.goal < 2:
             if "Networth" in event.tags:
                 locations[event.locationName] = world.get_location(event.locationName)
     
-    if world.options.randomize_cartel_influence:
-        for event in eventData.events.values():
-            if "Cartel Influence" in event.tags:
-                set_rule(locations[event.locationName], lambda state: state.has_all_counts(
-                    event.requirements, world.player))
-    else:
-        # Use alternate requirements if cartel influence is not randomized
-        for event in eventData.events.values():
-            if "Cartel Influence" in event.tags:
-                set_rule(locations[event.locationName], lambda state: state.has_all_counts(
-                    event.requirements_alt, world.player))
+    # locations 
+    # missions - always location checks - no alt requirements
+    for location in locationData.locations.values():
+        if "Mission" in location.tags:
+            if "Level Up Reward Required" in location.tags:
+                if world.options.randomize_level_unlocks:
+                    requirements = location.requirements
+                    requirements_type = location.requirements_type
+                else:
+                    requirements = location.requirements_alt
+                    requirements_type = location.requirements_alt_type
+                set_rule(locations[location.name], lambda state, reqs=requirements: state.has_all_counts(
+                    reqs, world.player))
+            elif "Customers Unlocked Required" in location.tags:
+                if world.options.randomize_customers:
+                    requirements = location.requirements
+                    requirements_type = location.requirements_type
+                else:
+                    requirements = location.requirements_alt
+                    requirements_type = location.requirements_alt_type
+                set_rule(locations[location.name], lambda state, reqs=requirements: state.has_all_counts(
+                    reqs, world.player))
+            else:
+                if location.requirements_type == "has_all_counts":
+                    set_rule(locations[location.name], lambda state, reqs=location.requirements: state.has_all_counts(
+                        reqs, world.player))
+                elif location.requirements_type == "has_any_count":
+                    set_rule(locations[location.name], lambda state, reqs=location.requirements: state.has_any_count(
+                        reqs, world.player))
     
+    # level unlocks
+    for location in locationData.locations.values():
+        if "Level Up Reward" in location.tags:
+            if world.options.randomize_level_unlocks:
+                requirements = location.requirements
+                requirements_type = location.requirements_type
+            else:
+                requirements = location.requirements_alt
+                requirements_type = location.requirements_alt_type
+            if requirements_type == "has_any_count":
+                set_rule(locations[location.name], lambda state, reqs=requirements: state.has_any_count(
+                    reqs, world.player))
+                
+    # Events
+    # missions - always location checks - no alt requirements
+    for event in eventData.events.values():
+        if "Mission" in event.tags:
+            if "Level Up Reward Required" in event.tags:
+                if world.options.randomize_level_unlocks:
+                    requirements = event.requirements
+                    requirements_type = event.requirements_type
+                else:
+                    requirements = event.requirements_alt
+                    requirements_type = event.requirements_alt_type
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_all_counts(
+                    reqs, world.player))
+            elif "Customers Unlocked Required" in event.tags:
+                if world.options.randomize_customers:
+                    requirements = event.requirements
+                    requirements_type = event.requirements_type
+                else:
+                    requirements = event.requirements_alt
+                    requirements_type = event.requirements_alt_type
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_all_counts(
+                    reqs, world.player))
+            else:
+                if event.requirements_type == "has_all_counts":
+                    set_rule(locations[event.locationName], lambda state, reqs=event.requirements: state.has_all_counts(
+                        reqs, world.player))
+                elif event.requirements_type == "has_any_count":
+                    set_rule(locations[event.locationName], lambda state, reqs=event.requirements: state.has_any_count(
+                        reqs, world.player))
+
+    # business properties
+    for event in eventData.events.values():
+        if world.options.randomize_business_properties:
+            requirements = event.requirements
+            requirements_type = event.requirements_type
+        else: 
+            requirements = event.requirements_alt
+            requirements_type = event.requirements_alt_type
+        if "Business Properties" in event.tags:
+            if requirements_type == "has_all_counts":
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_all_counts(
+                    reqs, world.player))
+            elif requirements_type == "has_any_count":
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_any_count(
+                    reqs, world.player))
+
+    # Customer releated unlocks
+    for event in eventData.events.values():
+        if world.options.randomize_customers:
+            requirements = event.requirements
+            requirements_type = event.requirements_type
+        else:
+            requirements = event.requirements_alt
+            requirements_type = event.requirements_alt_type
+        if "Customers Unlocked" in event.tags:
+            if requirements_type == "has_from_list":
+                req_keys = list(requirements.keys())
+                req_value = list(requirements.values())[0]
+                set_rule(locations[event.locationName], lambda state, keys=req_keys, val=req_value: state.has_from_list(
+                    keys, world.player, val))
+            elif requirements_type == "has_any_count":
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_any_count(
+                    reqs, world.player))
+                
+    # cartel influence
+    for event in eventData.events.values():
+        if world.options.randomize_cartel_influence:
+            requirements = event.requirements
+            requirements_type = event.requirements_type
+        else:
+            requirements = event.requirements_alt
+            requirements_type = event.requirements_alt_type
+        if "Cartel Influence" in event.tags:
+            if requirements_type == "has_all_counts":
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_all_counts(
+                    reqs, world.player))
+            elif requirements_type == "has_any_count":
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_any_count(
+                    reqs, world.player))
+
+    # level unlocks
+    for event in eventData.events.values():
+        if "Level Up Reward" in event.tags:
+            if world.options.randomize_level_unlocks:
+                requirements = event.requirements
+                requirements_type = event.requirements_type
+            else:
+                requirements = event.requirements_alt
+                requirements_type = event.requirements_alt_type
+            if requirements_type == "has_any_count":
+                set_rule(locations[event.locationName], lambda state, reqs=requirements: state.has_any_count(
+                    reqs, world.player))
+
     # Only need uptown unlocked to start cartel mission
     # Need 20 cocaine to finish it however
     if world.options.goal != 1:
         for event in eventData.events.values():
             if event.locationName == "Cartel Defeated":
-                set_rule(locations[event.locationName], lambda state: state.has_all_counts(
-                    event.requirements, world.player
+                set_rule(locations[event.locationName], lambda state, reqs=event.requirements: state.has_all_counts(
+                    reqs, world.player
                 ))
     if world.options.goal < 2:
         # Always accessible because money is always obtainable.
@@ -273,4 +390,3 @@ def set_completion_condition(world: Schedule1World) -> None:
     elif world.options.goal == 2:
         world.multiworld.completion_condition[world.player] = lambda state: state.has(
             "Cartel Defeated", world.player)
-

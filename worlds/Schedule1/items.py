@@ -90,8 +90,9 @@ def create_all_items(world: Schedule1World, data) -> None:
 
     # Add cartel influence items based on options
     if world.options.randomize_cartel_influence:
-        itempool += [world.create_item(item.name) for item in data.items.values() 
-                     if "Cartel Influence" in item.tags]
+        for _ in range(world.options.cartel_influence_checks_per_region):
+            itempool += [world.create_item(item.name) for item in data.items.values() 
+                        if "Cartel Influence" in item.tags]
 
     if world.options.randomize_business_properties:
         itempool += [world.create_item(item.name) for item in data.items.values() 
@@ -107,7 +108,7 @@ def create_all_items(world: Schedule1World, data) -> None:
 
     if world.options.randomize_customers:
         itempool += [world.create_item(item.name) for item in data.items.values() 
-                     if "Customer" in item.tags]
+                     if "Customer" in item.tags and "Default" not in item.tags]
 
     # The length of our itempool is easy to determine, since we have it as a list.
     number_of_items = len(itempool)
@@ -123,3 +124,20 @@ def create_all_items(world: Schedule1World, data) -> None:
 
     # This is how the generator actually knows about the existence of our items.
     world.multiworld.itempool += itempool
+
+    # Give default starting items (includes customer unlocks)
+    #TODO make starting items (customers) configurable
+    # Removed these from checks
+    if world.options.randomize_customers:
+        starting_kyle_cooley = world.create_item("Kyle Cooley Unlocked")
+        world.push_precollected(starting_kyle_cooley)
+        starting_austin_steiner = world.create_item("Austin Steiner Unlocked")
+        world.push_precollected(starting_austin_steiner)
+        starting_kathy_henderson = world.create_item("Kathy Henderson Unlocked")
+        world.push_precollected(starting_kathy_henderson)
+        starting_jessi_waters = world.create_item("Jessi Waters Unlocked")
+        world.push_precollected(starting_jessi_waters)
+        starting_sam_thompson = world.create_item("Sam Thompson Unlocked")
+        world.push_precollected(starting_sam_thompson)
+        starting_mick_lubbin = world.create_item("Mick Lubbin Unlocked")
+        world.push_precollected(starting_mick_lubbin)

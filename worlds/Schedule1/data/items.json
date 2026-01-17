@@ -125,7 +125,7 @@
         "modern_id": 25
     },
     "Mixing Station Mk II Unlock": {
-        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
+        "classification": ["PROGRESSION", "USEFUL"],
         "tags": ["Warehouse", "Level Up Reward"],
         "modern_id": 26
     },
@@ -281,7 +281,7 @@
     },
     "Austin Steiner Unlocked": {
         "classification": ["USEFUL"],
-        "tags": ["Northtown", "Customer"],
+        "tags": ["Northtown", "Customer", "Default"],
         "modern_id": 65
     },
     "Beth Penn Unlocked": {
@@ -306,17 +306,17 @@
     },
     "Jessi Waters Unlocked": {
         "classification": ["USEFUL"],
-        "tags": ["Northtown", "Customer"],
+        "tags": ["Northtown", "Customer", "Default"],
         "modern_id": 70
     },
     "Kathy Henderson Unlocked": {
         "classification": ["USEFUL"],
-        "tags": ["Northtown", "Customer"],
+        "tags": ["Northtown", "Customer", "Default"],
         "modern_id": 71
     },
     "Kyle Cooley Unlocked": {
         "classification": ["USEFUL"],
-        "tags": ["Northtown", "Customer"],
+        "tags": ["Northtown", "Customer", "Default"],
         "modern_id": 72
     },
     "Ludwig Meyer Unlocked": {
@@ -326,7 +326,7 @@
     },
     "Mick Lubbin Unlocked": {
         "classification": ["USEFUL"],
-        "tags": ["Northtown", "Customer"],
+        "tags": ["Northtown", "Customer", "Default"],
         "modern_id": 74
     },
     "Mrs. Ming Unlocked": {
@@ -346,8 +346,13 @@
     },
     "Sam Thompson Unlocked": {
         "classification": ["PROGRESSION", "USEFUL"],
-        "tags": ["Northtown", "Customer"],
+        "tags": ["Northtown", "Customer", "Default"],
         "modern_id": 78
+    },
+    "Shirley Watts Unlocked": {
+        "classification": ["PROGRESSION", "USEFUL"],
+        "tags": ["Westville", "Customer", "Supplier"],
+        "modern_id": 79
     },
     "Charles Rowland Unlocked": {
         "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
@@ -355,12 +360,12 @@
         "modern_id": 79
     },
     "Dean Webster Unlocked": {
-        "classification": ["USEFUL"],
+        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
         "modern_id": 80
     },
     "Doris Lubbin Unlocked": {
-        "classification": ["USEFUL"],
+        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
         "modern_id": 81
     },
@@ -375,27 +380,27 @@
         "modern_id": 83
     },
     "Joyce Ball Unlocked": {
-        "classification": ["USEFUL"],
+        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
         "modern_id": 84
     },
     "Keith Wagner Unlocked": {
-        "classification": ["USEFUL"],
+        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
         "modern_id": 85
     },
     "Kim Delaney Unlocked": {
-        "classification": ["USEFUL"],
+        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
         "modern_id": 86
     },
     "Meg Cooley Unlocked": {
-        "classification": ["USEFUL"],
+        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
         "modern_id": 87
     },
     "Trent Sherman Unlocked": {
-        "classification": ["USEFUL"],
+        "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
         "modern_id": 88
     },

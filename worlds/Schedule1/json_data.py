@@ -6,11 +6,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List
+import pkgutil
+from typing import Any, Dict, List, Union
 
 import orjson
 
 from BaseClasses import ItemClassification
+
+def load_json_data(data_name: str) -> Union[List[Any], Dict[str, Any]]:
+    return orjson.loads(pkgutil.get_data(__name__, "data/" + data_name).decode("utf-8-sig"))
 
 @dataclass
 class ItemData:
@@ -27,7 +31,9 @@ class LocationData:
     name: str
     region: str
     requirements: Dict[str, int]
+    requirements_type: str
     requirements_alt: Dict[str, int]
+    requirements_alt_type: str
     modern_id: int
     tags: List[str]
 
@@ -38,18 +44,17 @@ class EventData:
     itemName: str
     locationName : str
     requirements: Dict[str, int]
+    requirements_type: str
     requirements_alt: Dict[str, int]
+    requirements_alt_type: str
     tags: List[str]
 
 class Schedule1ItemData:
     """Container for all Schedule1 game data loaded from JSON files"""
     
     def __init__(self):
-        # Load items.json
-        items_json_path = Path(__file__).parent / "data" / "items.json"
-        with open(items_json_path, "rb") as f:
-            items_raw = orjson.loads(f.read())
-        
+        items_raw = load_json_data("items.json")
+            
         # Mapping from JSON classification strings to ItemClassification flags
         classification_map = {
             "USEFUL": ItemClassification.useful,
@@ -84,10 +89,7 @@ class Schedule1LocationData:
     """Container for all Schedule1 location data loaded from JSON files"""
     
     def __init__(self):
-        # Load locations.json
-        locations_json_path = Path(__file__).parent / "data" / "locations.json"
-        with open(locations_json_path, "rb") as f:
-            locations_raw = orjson.loads(f.read())
+        locations_raw = load_json_data("locations.json")
         
         # Parse locations into LocationData objects
         self.locations: Dict[str, LocationData] = {}
@@ -96,7 +98,9 @@ class Schedule1LocationData:
                 name=location_name,
                 region=location_info["region"],
                 requirements=location_info["requirements"],
+                requirements_type=location_info["requirements_type"],
                 requirements_alt=location_info["requirements_alt"],
+                requirements_alt_type=location_info["requirements_alt_type"],
                 tags=location_info["tags"],
                 modern_id=location_info["modern_id"]
             )
@@ -106,11 +110,9 @@ class Schedule1EventData:
     
     def __init__(self):
         # Load events.json
-        events_json_path = Path(__file__).parent / "data" / "events.json"
-        with open(events_json_path, "rb") as f:
-            events_raw = orjson.loads(f.read())
+        events_raw = load_json_data("events.json")
         
-        # Parse events into LocationData objects
+        # Parse events into EventData objects
         self.events: Dict[str, EventData] = {}
         for event_name, event_info in events_raw.items():
             self.events[event_name] = EventData(
@@ -118,7 +120,9 @@ class Schedule1EventData:
                 locationName=event_info["locationName"],
                 region=event_info["region"],
                 requirements=event_info["requirements"],
+                requirements_type=event_info["requirements_type"],
                 requirements_alt=event_info["requirements_alt"],
+                requirements_alt_type=event_info["requirements_alt_type"],
                 tags=event_info["tags"]
             )
 # Create singleton instances for easy import

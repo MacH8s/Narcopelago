@@ -28,15 +28,12 @@ def create_all_regions(world: Schedule1World) -> None:
     # Only regions that are mandatory checks.
     overworld = Region("Overworld", world.player, world.multiworld)   
     missions = Region("Missions", world.player, world.multiworld)
-    
+    level_unlocks = Region("Level Unlocks", world.player, world.multiworld)
     # Let's put all these regions in a list.
-    regions = [overworld, missions]
+    regions = [overworld, missions, level_unlocks]
 
     # Some regions may only exist if the player enables certain options.
     # In our case, the Hammer locks the top middle chest in its own room if the hammer option is enabled.
-    if world.options.randomize_level_unlocks:
-        level_unlocks = Region("Level Unlocks", world.player, world.multiworld)
-        regions.append(level_unlocks)
 
     if world.options.recipe_checks > 0:
         weed_recipe_checks = Region("Weed Recipe Checks", world.player, world.multiworld)
@@ -90,14 +87,15 @@ def connect_regions(world: Schedule1World) -> None:
     # you can get them at any time using world.get_region(...).
     overworld = world.get_region("Overworld")
     missions = world.get_region("Missions")
+    level_unlocks = world.get_region("Level Unlocks")
+
     if not world.options.randomize_cartel_influence:
         cartel_region_westville = world.get_region("Cartel Westville")
         cartel_region_downtown = world.get_region("Cartel Downtown")
         cartel_region_docks = world.get_region("Cartel Docks")
         cartel_region_suburbia = world.get_region("Cartel Suburbia")
         cartel_region_uptown = world.get_region("Cartel Uptown")
-    if world.options.randomize_level_unlocks:
-        level_unlocks = world.get_region("Level Unlocks")
+
     
     customer_region_northtown = world.get_region("Customer Northtown")
     customer_region_westville = world.get_region("Customer Westville")
@@ -107,6 +105,8 @@ def connect_regions(world: Schedule1World) -> None:
     customer_region_uptown = world.get_region("Customer Uptown")
 
     overworld.connect(missions, "Overworld to Missions")
+    overworld.connect(level_unlocks, "Overworld to Level Unlocks")
+    level_unlocks.connect(customer_region_westville, "Level Unlocks to Customer Westville")
 
     overworld.connect(customer_region_northtown, "Overworld to Customer Northtown")
     if not world.options.randomize_cartel_influence:
@@ -120,15 +120,9 @@ def connect_regions(world: Schedule1World) -> None:
         overworld.connect(customer_region_docks, "Overworld to Customer Docks")
         overworld.connect(customer_region_suburbia, "Overworld to Customer Suburbia")
         overworld.connect(customer_region_uptown, "Overworld to Customer Uptown")
-    
-    if world.options.randomize_level_unlocks: 
-        overworld.connect(level_unlocks, "Overworld to Level Unlocks")
-        level_unlocks.connect(customer_region_westville, "Level Unlocks to Customer Westville")
-        # still need to have randomized for there to even be checks
-        if not world.options.randomize_cartel_influence:
-            level_unlocks.connect(cartel_region_westville, "Level Unlocks to Cartel Westville")
 
     if not world.options.randomize_cartel_influence:
+        level_unlocks.connect(cartel_region_westville, "Level Unlocks to Cartel Westville")
         cartel_region_westville.connect(cartel_region_downtown, "Cartel Westville to Cartel Downtown")
         cartel_region_downtown.connect(cartel_region_docks, "Cartel Downtown to Cartel Docks")
         cartel_region_docks.connect(cartel_region_suburbia, "Cartel Docks to Cartel Suburbia")
