@@ -98,8 +98,9 @@ class Schedule1World(World):
             "randomize_business_properties",
             "randomize_dealers",
             "randomize_customers",
-            "cartel_influence_checks_per_region",
+            "cartel_influence_items_per_region",
             "recipe_checks",
             "cash_for_trash",
-            "randomize_level_unlocks"
+            "randomize_level_unlocks",
+            "deathlink"
         )

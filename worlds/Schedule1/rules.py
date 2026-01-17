@@ -119,7 +119,10 @@ def set_all_entrance_rules(world: Schedule1World) -> None:
     
     # True for the time being, but could be randomized in the future
     def can_access_weed_recipe_checks(state: CollectionState) -> bool:
-        if state.has_any(["Mixing Station Mk II Unlock", "Mixing Station Unlock"], world.player):
+        if world.options.randomize_level_unlocks:
+            if state.has_any(["Mixing Station Mk II Unlock", "Mixing Station Unlock"], world.player):
+                return True
+        elif state.has("Rank Hoodlum I Reached", world.player):
             return True
         return False
     
@@ -139,11 +142,13 @@ def set_all_entrance_rules(world: Schedule1World) -> None:
         return False
     
     def can_access_shrooms_recipe_checks(state: CollectionState) -> bool:
-        if world.options.randomize_customers:
+        if world.options.randomize_level_unlocks:
             if state.has(("Unlocked Elizabeth or Kevin"), world.player) and state.has_any(
                                   ( "Mixing Station Unlock", 
                                     "Mixing Station Mk II Unlock"), world.player):
                 return True
+        elif state.has_all(("Unlocked Elizabeth or Kevin", "Rank Hoodlum I Reached"), world.player):
+            return True
         return False
     
     def can_access_cocaine_recipe_checks(state: CollectionState) -> bool:

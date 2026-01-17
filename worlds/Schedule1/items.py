@@ -90,7 +90,7 @@ def create_all_items(world: Schedule1World, data) -> None:
 
     # Add cartel influence items based on options
     if world.options.randomize_cartel_influence:
-        for _ in range(world.options.cartel_influence_checks_per_region):
+        for _ in range(world.options.cartel_influence_items_per_region):
             itempool += [world.create_item(item.name) for item in data.items.values() 
                         if "Cartel Influence" in item.tags]
 
