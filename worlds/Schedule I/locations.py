@@ -19,7 +19,7 @@ def load_locations_data(data):
 # Each Location instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Location class and override the "game" field.
 class Schedule1Location(Location):
-    game = "Schedule1"
+    game = "Schedule I"
 
 
 # Let's make one more helper method before we begin actually creating locations.

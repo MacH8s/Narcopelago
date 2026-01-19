@@ -31,7 +31,7 @@ class Schedule1World(World):
     # The docstring should contain a description of the game, to be displayed on the WebHost.
 
     # You must override the "game" field to say the name of the game.
-    game = "Schedule1"
+    game = "Schedule I"
 
     # The WebWorld is a definition class that governs how this world will be displayed on the website.
     web = web_world.APSchedule1()

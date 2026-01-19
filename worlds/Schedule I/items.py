@@ -19,7 +19,7 @@ def load_items_data(data):
 # Each Item instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Item class and override the "game" field.
 class Schedule1Item(Item):
-    game = "Schedule1"
+    game = "Schedule I"
 
 # To do this, it must define a function called world.get_filler_item_name(), which we will define in world.py later.
 # For now, let's make a function that returns the name of a random filler item here in items.py.
