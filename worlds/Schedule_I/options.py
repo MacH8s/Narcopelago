@@ -202,6 +202,13 @@ class RandomizeCustomers(DefaultOnToggle):
     """
     display_name = "Randomize Customers"
 
+class RandomizeSuppliers(DefaultOnToggle):
+    """
+    Determines if suppliers will be added into the item pool.
+    Albert Hoover is unlocked by default
+    """
+    display_name = "Randomize Suppliers"
+
 class RecipeChecks(Range):
     """
     Number of recipe checks to include in the item pool.
@@ -250,6 +257,7 @@ class Schedule1Options(PerGameCommonOptions):
     randomize_business_properties: RandomizeBusinessProperties
     randomize_dealers: RandomizeDealers
     randomize_customers: RandomizeCustomers
+    randomize_suppliers: RandomizeSuppliers
     recipe_checks: RecipeChecks
     cash_for_trash: CashForTrash
     deathlink: Schedule1DeathLink
@@ -263,8 +271,8 @@ option_groups = [
         [Goal, NumberOfXpBundles, AmountOfXpPerBundleMin, AmountOfXpPerBundleMax, NumberOfCashBundles,
          AmountOfCashPerBundleMin, AmountOfCashPerBundleMax, NetworthAmountRequired, FillerItemPoolType,
          RandomizeCartelInfluence, RandomizeDrugMakingProperties, RandomizeLevelUnlocks,
-         RandomizeBusinessProperties, RandomizeDealers, RandomizeCustomers, RecipeChecks, CashForTrash,
-         CartelInfluenceItemsPerRegion, Schedule1DeathLink],
+         RandomizeBusinessProperties, RandomizeDealers, RandomizeCustomers, RandomizeSuppliers,
+         RecipeChecks, CashForTrash, CartelInfluenceItemsPerRegion, Schedule1DeathLink],
     )
 ]
 
@@ -289,6 +297,7 @@ option_presets = {
         "recipe_checks": RecipeChecks.default,
         "cash_for_trash": CashForTrash.default,
         "randomize_level_unlocks": True,
+        "randomize_suppliers": True,
         "deathlink": Schedule1DeathLink.default,
     }
 }

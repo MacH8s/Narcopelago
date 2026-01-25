@@ -1,6 +1,6 @@
 """
 Centralized data loader for Schedule1 world.
-Loads and parses items.json and locations.json into structured objects for easy access.
+Loads and parses items.json, locations.json, and regions.json into structured objects for easy access.
 """
 from __future__ import annotations
 
@@ -30,24 +30,15 @@ class LocationData:
     """Represents location data from locations.json"""
     name: str
     region: str
-    requirements: Dict[str, int]
-    requirements_type: str
-    requirements_alt: Dict[str, int]
-    requirements_alt_type: str
-    modern_id: int
+    requirements: Union[bool, Dict[str, Any]]
     tags: List[str]
+    modern_id: int
 
 @dataclass
-class EventData:
-    """Represents event data from events.json"""
-    region: str
-    itemName: str
-    locationName : str
-    requirements: Dict[str, int]
-    requirements_type: str
-    requirements_alt: Dict[str, int]
-    requirements_alt_type: str
-    tags: List[str]
+class RegionData:
+    """Represents region data from regions.json"""
+    name: str
+    connections: Dict[str, Union[bool, Dict[str, Any]]]
 
 class Schedule1ItemData:
     """Container for all Schedule1 game data loaded from JSON files"""
@@ -98,34 +89,25 @@ class Schedule1LocationData:
                 name=location_name,
                 region=location_info["region"],
                 requirements=location_info["requirements"],
-                requirements_type=location_info["requirements_type"],
-                requirements_alt=location_info["requirements_alt"],
-                requirements_alt_type=location_info["requirements_alt_type"],
                 tags=location_info["tags"],
                 modern_id=location_info["modern_id"]
             )
 
-class Schedule1EventData:
-    """Container for all Schedule1 event data loaded from JSON files"""
+class Schedule1RegionData:
+    """Container for all Schedule1 region data loaded from JSON files"""
     
     def __init__(self):
-        # Load events.json
-        events_raw = load_json_data("events.json")
+        regions_raw = load_json_data("regions.json")
         
-        # Parse events into EventData objects
-        self.events: Dict[str, EventData] = {}
-        for event_name, event_info in events_raw.items():
-            self.events[event_name] = EventData(
-                itemName=event_info["itemName"],
-                locationName=event_info["locationName"],
-                region=event_info["region"],
-                requirements=event_info["requirements"],
-                requirements_type=event_info["requirements_type"],
-                requirements_alt=event_info["requirements_alt"],
-                requirements_alt_type=event_info["requirements_alt_type"],
-                tags=event_info["tags"]
+        # Parse regions into RegionData objects
+        self.regions: Dict[str, RegionData] = {}
+        for region_name, region_info in regions_raw.items():
+            self.regions[region_name] = RegionData(
+                name=region_name,
+                connections=region_info["connections"]
             )
+
 # Create singleton instances for easy import
 schedule1_item_data = Schedule1ItemData()
 schedule1_location_data = Schedule1LocationData()
-schedule1_event_data = Schedule1EventData()
+schedule1_region_data = Schedule1RegionData()

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Dict
 
 from BaseClasses import ItemClassification, Location
 
@@ -19,7 +19,7 @@ def load_locations_data(data):
 # Each Location instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Location class and override the "game" field.
 class Schedule1Location(Location):
-    game = "Schedule I"
+    game = "Schedule_I"
 
 
 # Let's make one more helper method before we begin actually creating locations.
@@ -32,97 +32,35 @@ def get_location_names_with_ids(location_names: list[str]) -> dict[str, int | No
     return {location_name: LOCATION_NAME_TO_ID[location_name] for location_name in location_names}
 
 
-def create_all_locations(world: Schedule1World, locationData, eventData) -> None:
+def create_all_locations(world: Schedule1World, locationData) -> None:
     create_regular_locations(world, locationData)
-    create_events(world, eventData)
 
 
 def create_regular_locations(world: Schedule1World, data) -> None:
-    # Finally, we need to put the Locations ("checks") into their regions.
-    # Once again, before we do anything, we can grab our regions we created by using world.get_region()
-    overworld = world.get_region("Overworld")
-    missions = world.get_region("Missions")
-    if world.options.randomize_business_properties or world.options.randomize_drug_making_properties:
-        realtor = world.get_region("Realtor")
+    # Get all unique region names from location data
+    region_names = set(loc.region for loc in data.locations.values())
     
-    # Customer unlock locations - add to their respective regions
-    customer_region_northtown = world.get_region("Customer Northtown")
-    customer_region_westville = world.get_region("Customer Westville")
-    customer_region_downtown = world.get_region("Customer Downtown")
-    customer_region_docks = world.get_region("Customer Docks")
-    customer_region_suburbia = world.get_region("Customer Suburbia")
-    customer_region_uptown = world.get_region("Customer Uptown")
-
-    # A simpler way to do this is by using the region.add_locations helper.
-    # For this, you need to have a dict of location names to their IDs (i.e. a subset of location_name_to_id)
-    # Aha! So that's why we made that "get_location_names_with_ids" helper method earlier.
-    # You also need to pass your overridden Location class.
-    # So dirty, this is horrible
-    missions.add_locations(get_location_names_with_ids([loc.name for loc in data.locations.values() 
-                                                        if loc.region == "Missions"]), Schedule1Location)
-
-    # Level Unlocks
-    if world.options.randomize_level_unlocks:
-        level_unlocks = world.get_region("Level Unlocks")
-        level_unlocks.add_locations(get_location_names_with_ids(
-            [loc.name for loc in data.locations.values() if loc.region == "Level Unlocks"]), Schedule1Location)
-
-    # property checks
-    if world.options.randomize_business_properties:
-        realtor.add_locations(get_location_names_with_ids([loc.name for loc in data.locations.values() 
-                                                        if loc.region == "Realtor"
-                                                        and "Business Property" in loc.tags]), Schedule1Location)
-
-    # Note: Motel Room, and sweatshop aren't included in checks for realtor
-    # These checks are already included within missions
-    if world.options.randomize_drug_making_properties:
-        realtor.add_locations(get_location_names_with_ids([loc.name for loc in data.locations.values() 
-                                                        if loc.region == "Realtor"
-                                                        and "Drug Making Property" in loc.tags]), Schedule1Location)
-
-    # Customer locations - extract from LOCATION_NAME_TO_ID and group by region
-    customer_region_northtown.add_locations(get_location_names_with_ids(
-        loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Northtown" and "Dealer" not in loc.tags), Schedule1Location)
-    customer_region_westville.add_locations(get_location_names_with_ids(
-        loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Westville" and "Dealer" not in loc.tags), Schedule1Location)
-    customer_region_downtown.add_locations(get_location_names_with_ids(
-        loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Downtown" and "Dealer" not in loc.tags), Schedule1Location)
-    customer_region_docks.add_locations(get_location_names_with_ids(
-        loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Docks" and "Dealer" not in loc.tags), Schedule1Location)
-    customer_region_suburbia.add_locations(get_location_names_with_ids(
-        loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Suburbia" and "Dealer" not in loc.tags), Schedule1Location)
-    customer_region_uptown.add_locations(get_location_names_with_ids(
-        loc.name for loc in data.locations.values() 
-            if loc.region == "Customer Uptown" and "Dealer" not in loc.tags), Schedule1Location)
+    # Load all regions into a dictionary once for efficient access
+    regions_dict: Dict[str, any] = {}
+    for region_name in region_names:
+        regions_dict[region_name] = world.get_region(region_name)
     
-    if not world.options.randomize_cartel_influence:
-        cartel_region_westville = world.get_region("Cartel Westville")
-        cartel_region_downtown = world.get_region("Cartel Downtown")
-        cartel_region_docks = world.get_region("Cartel Docks")
-        cartel_region_suburbia = world.get_region("Cartel Suburbia")
-        cartel_region_uptown = world.get_region("Cartel Uptown")
-
-        cartel_region_westville.add_locations(get_location_names_with_ids(
-            [loc.name for loc in data.locations.values() 
-                if loc.region == "Cartel Westville"]), Schedule1Location)
-        cartel_region_downtown.add_locations(get_location_names_with_ids(
-            [loc.name for loc in data.locations.values() 
-                if loc.region == "Cartel Downtown"]), Schedule1Location)
-        cartel_region_docks.add_locations(get_location_names_with_ids(
-            [loc.name for loc in data.locations.values() 
-                if loc.region == "Cartel Docks"]), Schedule1Location)
-        cartel_region_suburbia.add_locations(get_location_names_with_ids(
-            [loc.name for loc in data.locations.values() 
-                if loc.region == "Cartel Suburbia"]), Schedule1Location)
-        cartel_region_uptown.add_locations(get_location_names_with_ids(
-            [loc.name for loc in data.locations.values() 
-                if loc.region == "Cartel Uptown"]), Schedule1Location)
-
+    # Group locations by region, excluding suppliers if randomized
+    locations_by_region: Dict[str, list[str]] = {region: [] for region in region_names}
+    
+    for loc_name, loc_data in data.locations.items():
+        # Skip supplier locations if randomize_suppliers is enabled
+        if world.options.randomize_suppliers and "Supplier" in loc_data.tags:
+            continue
+        
+        locations_by_region[loc_data.region].append(loc_name)
+    
+    # Add all locations to their respective regions
+    for region_name, location_names in locations_by_region.items():
+        if location_names:  # Only add if there are locations
+            region = regions_dict[region_name]
+            region.add_locations(get_location_names_with_ids(location_names), Schedule1Location)
+    
     # Recipe checks - Only include the number specified by the RecipeChecks option
     if world.options.recipe_checks > 0:
         # Get each recipe region
@@ -150,65 +88,14 @@ def create_regular_locations(world: Schedule1World, data) -> None:
             region.add_locations(recipe_locations_dict, Schedule1Location)
         
     # Cash for Trash checks - Only include the number specified by the CashForTrash option
+    # Add to Overworld region
     cash_for_trash_count = world.options.cash_for_trash
     if cash_for_trash_count > 0:
-        start_id = 255  # Starting ID for Cash for Trash locations
+        overworld = world.get_region("Overworld")
+        start_id = 600  # Starting ID for Cash for Trash locations
         cash_for_trash_locations = []
         for i in range(1, cash_for_trash_count + 1):
             LOCATION_NAME_TO_ID[f"Cash for Trash {i}, Collect {i * 10} pieces of trash"] = start_id + (i - 1)
             cash_for_trash_locations.append(f"Cash for Trash {i}, Collect {i * 10} pieces of trash")
         cash_for_trash_locations_dict = get_location_names_with_ids(cash_for_trash_locations)
         overworld.add_locations(cash_for_trash_locations_dict, Schedule1Location)
-
-    # Recruit Dealer locations - add to their respective regions - match them to customer regions
-    if not world.options.randomize_dealers:
-        westville_dealer_location = get_location_names_with_ids(["Recruit Westville Dealer: Molly Presley"])
-        customer_region_westville.add_locations(westville_dealer_location, Schedule1Location)
-        downtown_dealer_location = get_location_names_with_ids(["Recruit Downtown Dealer: Brad Crosby"])
-        customer_region_downtown.add_locations(downtown_dealer_location, Schedule1Location)
-        docks_dealer_location = get_location_names_with_ids(["Recruit Docks Dealer: Jane Lucero"])
-        customer_region_docks.add_locations(docks_dealer_location, Schedule1Location)
-        suburbia_dealer_location = get_location_names_with_ids(["Recruit Suburbia Dealer: Wei Long"])
-        customer_region_suburbia.add_locations(suburbia_dealer_location, Schedule1Location)
-        uptown_dealer_location = get_location_names_with_ids(["Recruit Uptown Dealer: Leo Rivers"])
-        customer_region_uptown.add_locations(uptown_dealer_location, Schedule1Location)
-
-
-def create_events(world: Schedule1World, data) -> None:
-    # All mission completions are checks, however, they don't have an item associated with them.
-    # We need to associate an event location/ event item for each mission completion.
-    # This gives us a way to link missions
-    regions = { "Overworld" : world.get_region("Overworld"),
-                "Missions" : world.get_region("Missions"),
-                "Level Unlocks" : world.get_region("Level Unlocks"),
-                "Customer Northtown" : world.get_region("Customer Northtown"),
-                "Customer Westville" : world.get_region("Customer Westville"),
-                "Customer Downtown" : world.get_region("Customer Downtown"),
-                "Customer Docks" : world.get_region("Customer Docks"),
-                "Customer Suburbia" : world.get_region("Customer Suburbia"),
-                "Customer Uptown" : world.get_region("Customer Uptown")} 
-    
-    # If goal is not "Reach Networth Goal", include Cartel Defeated event
-    if world.options.goal != 1:
-        for event in data.events.values():
-            # "Cartel" here is the tag we're looking for for this goal
-            if "Cartel" in event.tags:
-                regions[event.region].add_event(
-                    event.locationName, event.itemName, 
-                    location_type=Schedule1Location, item_type=items.Schedule1Item)
-
-    # if goal includes networth, include Networth Goal Reached event
-    if world.options.goal < 2:
-        for event in data.events.values():
-            if "Networth" in event.tags:
-                regions[event.region].add_event(
-                    event.locationName, event.itemName, 
-                    location_type=Schedule1Location, item_type=items.Schedule1Item)
-                
-    # Checks to see if 700 cartel cleared when cartel are not randomized
-    for event in data.events.values():
-        # Permanent events are always included regardless of options
-        if "Permanent" in event.tags:
-            regions[event.region].add_event(
-                event.locationName, event.itemName, 
-                location_type=Schedule1Location, item_type=items.Schedule1Item)

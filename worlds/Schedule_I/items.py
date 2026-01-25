@@ -19,7 +19,7 @@ def load_items_data(data):
 # Each Item instance must correctly report the "game" it belongs to.
 # To make this simple, it is common practice to subclass the basic Item class and override the "game" field.
 class Schedule1Item(Item):
-    game = "Schedule I"
+    game = "Schedule_I"
 
 # To do this, it must define a function called world.get_filler_item_name(), which we will define in world.py later.
 # For now, let's make a function that returns the name of a random filler item here in items.py.
@@ -109,6 +109,10 @@ def create_all_items(world: Schedule1World, data) -> None:
     if world.options.randomize_customers:
         itempool += [world.create_item(item.name) for item in data.items.values() 
                      if "Customer" in item.tags and "Default" not in item.tags]
+        
+    if world.options.randomize_suppliers:
+        itempool += [world.create_item(item.name) for item in data.items.values() 
+                     if "Supplier" in item.tags and "Default" not in item.tags]
 
     # The length of our itempool is easy to determine, since we have it as a list.
     number_of_items = len(itempool)
@@ -141,3 +145,6 @@ def create_all_items(world: Schedule1World, data) -> None:
         world.push_precollected(starting_sam_thompson)
         starting_mick_lubbin = world.create_item("Mick Lubbin Unlocked")
         world.push_precollected(starting_mick_lubbin)
+    if world.options.randomize_suppliers:
+        starting_albert_hoover = world.create_item("Albert Hoover Unlocked")
+        world.push_precollected(starting_albert_hoover)

@@ -349,11 +349,6 @@
         "tags": ["Northtown", "Customer", "Default"],
         "modern_id": 78
     },
-    "Shirley Watts Unlocked": {
-        "classification": ["PROGRESSION", "USEFUL"],
-        "tags": ["Westville", "Customer", "Supplier"],
-        "modern_id": 79
-    },
     "Charles Rowland Unlocked": {
         "classification": ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
         "tags": ["Westville", "Customer"],
@@ -613,6 +608,31 @@
         "classification": ["USEFUL"],
         "tags": ["Uptown", "Customer"],
         "modern_id": 130
+    },
+    "Benji Coleman Recruited": {
+        "classification": ["PROGRESSION", "USEFUL"],
+        "tags": ["Northtown", "Dealer"],
+        "modern_id": 216
+    },
+    "Albert Hoover Unlocked": {
+        "classification": ["PROGRESSION", "USEFUL"],
+        "tags": ["Northtown", "Supplier", "Default"],
+        "modern_id": 217
+    },
+    "Shirley Watts Unlocked": {
+        "classification": ["PROGRESSION", "USEFUL"],
+        "tags": ["Westville", "Supplier"],
+        "modern_id": 218
+    },
+    "Salvador Moreno Unlocked": {
+        "classification": ["PROGRESSION"],
+        "tags": ["Docks", "Supplier"],
+        "modern_id": 219
+    },
+    "Fungal Phil Unlocked": {
+        "classification": ["PROGRESSION_SKIP_BALANCING"],
+        "tags": ["Suburbia", "Supplier"],
+        "modern_id": 220
     },
     "Molly Presley Recruited": {
         "classification": ["PROGRESSION_SKIP_BALANCING"],
@@ -909,11 +929,6 @@
         "tags": ["Amazing Filler"],
         "modern_id": 191
     },
-    "Low-Quality Pseudo": {
-        "classification": ["FILLER"],
-        "tags": ["Amazing Filler"],
-        "modern_id": 192
-    },
     "Pseudo": {
         "classification": ["FILLER"],
         "tags": ["Amazing Filler"],
@@ -978,11 +993,6 @@
         "classification": ["FILLER"],
         "tags": ["Progression Skip Filler"],
         "modern_id": 205
-    },
-    "Coca Seed": {
-        "classification": ["FILLER"],
-        "tags": ["Progression Skip Filler"],
-        "modern_id": 206
     },
     "Revolver": {
         "classification": ["FILLER"],

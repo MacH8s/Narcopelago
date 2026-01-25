@@ -56,11 +56,11 @@ class Schedule1World(World):
     # The main ones are: create_regions, set_rules, create_items.
     # For better structure and readability, we put each of these in their own file.
     def create_regions(self) -> None:
-        regions.create_and_connect_regions(self)
-        locations.create_all_locations(self, json_data.schedule1_location_data, json_data.schedule1_event_data)
+        regions.create_and_connect_regions(self, json_data.schedule1_region_data)
+        locations.create_all_locations(self, json_data.schedule1_location_data)
 
     def set_rules(self) -> None:
-        rules.set_all_rules(self, json_data.schedule1_location_data, json_data.schedule1_event_data)
+        rules.set_all_rules(self, json_data.schedule1_location_data, json_data.schedule1_region_data)
 
     def create_items(self) -> None:
         items.create_all_items(self, json_data.schedule1_item_data)
@@ -98,6 +98,7 @@ class Schedule1World(World):
             "randomize_business_properties",
             "randomize_dealers",
             "randomize_customers",
+            "randomize_suppliers",
             "cartel_influence_items_per_region",
             "recipe_checks",
             "cash_for_trash",
