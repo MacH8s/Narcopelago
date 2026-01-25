@@ -8,7 +8,7 @@ from .options import option_groups, option_presets
 class APSchedule1(WebWorld):
     # We need to override the "game" field of the WebWorld superclass.
     # This must be the same string as the regular World class.
-    game = "Schedule 1"
+    game = "Schedule_I"
 
     # Your game pages will have a visual theme (affecting e.g. the background image).
     # You can choose between dirt, grass, grassFlowers, ice, jungle, ocean, partyTime, and stone.

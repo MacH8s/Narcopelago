@@ -107,7 +107,18 @@ class Schedule1RegionData:
                 connections=region_info["connections"]
             )
 
+
+class Schedule1VictoryData:
+    """Container for victory conditions loaded from victory.json"""
+    
+    def __init__(self):
+        # victory.json is structured as {option_name: {method: value, ...}, ...}
+        # This is the same structure as requirements in locations/regions
+        self.requirements: Dict[str, Any] = load_json_data("victory.json")
+
+
 # Create singleton instances for easy import
 schedule1_item_data = Schedule1ItemData()
 schedule1_location_data = Schedule1LocationData()
 schedule1_region_data = Schedule1RegionData()
+schedule1_victory_data = Schedule1VictoryData()

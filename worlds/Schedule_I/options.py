@@ -29,8 +29,8 @@ class Goal(Choice):
     
     display_name = "Goal"
 
-    option_missions_networth = 0
-    option_networth_only = 1
+    option_networth_only = 0
+    option_missions_networth = 1
     option_missions_only = 2
 
     # Choice options must define an explicit default value.
@@ -205,6 +205,7 @@ class RandomizeCustomers(DefaultOnToggle):
 class RandomizeSuppliers(DefaultOnToggle):
     """
     Determines if suppliers will be added into the item pool.
+    If enabled, befriending suppliers no longer become checks.
     Albert Hoover is unlocked by default
     """
     display_name = "Randomize Suppliers"
@@ -227,15 +228,6 @@ class CashForTrash(Range):
     range_start = 0
     range_end = 50
     default = 5
-
-class Schedule1DeathLink(DeathLink):
-    """
-    When enabled, DeathLink is active in the game.
-    Deathlink is sent when a player a arreseted in-game.
-    Recieved Deathlink will cause the player to be arrested
-    """
-    display_name = "Death Link Test"
-
 
 # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # This is in the format "option_name_in_snake_case: OptionClassName".
@@ -260,7 +252,7 @@ class Schedule1Options(PerGameCommonOptions):
     randomize_suppliers: RandomizeSuppliers
     recipe_checks: RecipeChecks
     cash_for_trash: CashForTrash
-    deathlink: Schedule1DeathLink
+    death_link: DeathLink
 
 
 
@@ -272,7 +264,7 @@ option_groups = [
          AmountOfCashPerBundleMin, AmountOfCashPerBundleMax, NetworthAmountRequired, FillerItemPoolType,
          RandomizeCartelInfluence, RandomizeDrugMakingProperties, RandomizeLevelUnlocks,
          RandomizeBusinessProperties, RandomizeDealers, RandomizeCustomers, RandomizeSuppliers,
-         RecipeChecks, CashForTrash, CartelInfluenceItemsPerRegion, Schedule1DeathLink],
+         RecipeChecks, CashForTrash, CartelInfluenceItemsPerRegion, DeathLink],
     )
 ]
 
@@ -298,6 +290,6 @@ option_presets = {
         "cash_for_trash": CashForTrash.default,
         "randomize_level_unlocks": True,
         "randomize_suppliers": True,
-        "deathlink": Schedule1DeathLink.default,
+        "death_link": DeathLink.default,
     }
 }

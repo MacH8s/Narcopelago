@@ -5,8 +5,7 @@
             "Rank Street Rat III": true,
             "Weed Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]]}},
             "Meth Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]],
-                                                        "has_all" : ["Low-Quality Pseudo Unlock",
-                                                                    "Acid Unlock",
+                                                        "has_all" : ["Acid Unlock",
                                                                     "Phosphorus Unlock",
                                                                     "Chemistry Station Unlock",
                                                                     "Lab Oven Unlock",
@@ -19,8 +18,8 @@
             "Cocaine Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]],
                                                                   "has_all" : ["Cauldron Unlock", "Lab Oven Unlock", "Gasoline Unlock"]},
                                     "randomize_suppliers" : {"has": "Salvador Moreno Unlocked"},
-                                    "randomize_customers" : {"has_any" : [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-            "Northtown" : true}
+                                    "randomize_customers" : {"has_any" : [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]}},
+            "Northtown" : true
         }
     },
     "Northtown": {
@@ -139,8 +138,7 @@
     }
     },
     "Rank Enforcer I": {
-    "connections": {
-        "Rank Block Boss I": true
+    "connections": {"Rank Block Boss I": true}
     },
     "Rank Block Boss I": {
     "connections": {}

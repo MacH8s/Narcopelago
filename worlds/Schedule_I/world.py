@@ -31,7 +31,7 @@ class Schedule1World(World):
     # The docstring should contain a description of the game, to be displayed on the WebHost.
 
     # You must override the "game" field to say the name of the game.
-    game = "Schedule I"
+    game = "Schedule_I"
 
     # The WebWorld is a definition class that governs how this world will be displayed on the website.
     web = web_world.APSchedule1()
@@ -60,7 +60,7 @@ class Schedule1World(World):
         locations.create_all_locations(self, json_data.schedule1_location_data)
 
     def set_rules(self) -> None:
-        rules.set_all_rules(self, json_data.schedule1_location_data, json_data.schedule1_region_data)
+        rules.set_all_rules(self, json_data.schedule1_location_data, json_data.schedule1_region_data, json_data.schedule1_victory_data)
 
     def create_items(self) -> None:
         items.create_all_items(self, json_data.schedule1_item_data)
@@ -103,5 +103,5 @@ class Schedule1World(World):
             "recipe_checks",
             "cash_for_trash",
             "randomize_level_unlocks",
-            "deathlink"
+            "death_link"
         )

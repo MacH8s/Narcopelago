@@ -72,91 +72,91 @@
         "modern_id": 12
     },
     "Gearing Up|Go to the hardware store": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|1",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 13
     },
     "Gearing Up|Buy 1x grow tent": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|1",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 14
     },
     "Gearing Up|Buy 1x soil": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|1",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 15
     },
     "Gearing Up|Buy 1x watering can": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|1",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 16
     },
     "Gearing Up|Head back to the motel room": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|1",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 17
     },
     "Gearing Up|Place the grow tent and fill it with soil": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|1",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 18
     },
     "Gearing Up|Talk to Uncle Nelson at a payphone": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 19
     },
     "Gearing Up|Order 1x OG Kush Seed from Albert Hoover": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 20
     },
     "Gearing Up|Wait for the dead drop": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 21
     },
     "Gearing Up|Collect the dead drop": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 22
     },
     "Gearing Up|Sow a weed seed": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 23
     },
     "Gearing Up|Water the weed plant": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 24
     },
     "Gearing Up|Harvest the weed plant once fully grown": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 25
     },
     "Gearing Up|Package at least 3x weed": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 26
     },
     "Gearing Up|List OG Kush for sale in the product manager app": {
-        "region": "Gearing Up",
+        "region": "Gearing Up|2",
         "requirements": true,
         "tags": ["Mission", "Permanent"],
         "modern_id": 27
@@ -535,7 +535,7 @@
     },
     "We Need To Cook|Unlock the pseudo supplier in Westville (see contacts app for more info)": {
         "region": "We Need To Cook|1",
-        "requirements": {"randomize_customers" : {"has_any" : [["Unlocked Meg Cooley", "Jerry Montero"]]},
+        "requirements": {"randomize_customers" : {"has_any" : [["Meg Cooley Unlocked", "Jerry Montero Unlocked"]]},
                         "randomize_suppliers": {"has": "Shirley Watts Unlocked"}},
         "tags": ["Mission", "Permanent", "Customers Unlocked Required"],
         "modern_id": 80
@@ -848,64 +848,80 @@
     "Finishing the Job|Trade Billy 20x cocaine in return for RDX": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 122
     },
     "Finishing the Job|Get Sam to dig access to the tunnel under Hyland Manor": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 123
     },
     "Finishing the Job|Wait for Sam to dig access to the tunnel": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 124
     },
     "Finishing the Job|Talk to Stan about turning the RDX into a bomb": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 125
     },
     "Finishing the Job|Kill the thief who keeps stealing Stan's supplies. He is often seen at the docks at night.": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 126
     },
     "Finishing the Job|Get Stan to turn the RDX into a bomb": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 127
     },
     "Finishing the Job|Plant the bomb under Hyland Manor": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 128
     },
     "Finishing the Job| Wait for the bomb to detonate": {
         "region": "Finishing the Job",
         "requirements": {"randomize_cartel_influence" : {"has_all_counts": {"Cartel Influence, Suburbia" : 7}},
-                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]]},
-                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]}},
+                        "randomize_customers": {"has_any": [["Mac Cooper Unlocked", "Javier Perez Unlocked"]],
+                                                "has_all": ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
+                        "randomize_level_unlocks": {"has_all" : ["Cauldron Unlock", "Gasoline Unlock"]},
+                        "randomize_suppliers": {"has":"Salvador Moreno Unlocked"}},
         "tags": ["Mission", "Permanent", "Level Up Reward Required"],
         "modern_id": 129
     },
