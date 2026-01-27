@@ -1565,13 +1565,14 @@
     },
     "Befriend Supplier: Salvador Moreno": {
         "region": "Docks",
-        "requirements": {"randomize_customers" : {"has_any" : [["Javier Perez Unlocked", "Kelly Reynolds Unlocked", "Mac Cooper Unlocked"]]}},
+        "requirements": {"randomize_customers" : {"has_any" : [["Javier Perez Unlocked", "Kelly Reynolds Unlocked", "Mac Cooper Unlocked"]]},
+                         "randomize_suppliers" : {"has" : "Salvador Moreno Unlocked"}},
         "tags": ["Supplier"],
         "modern_id": 402
     },
     "Successful Sample: Kelly Reynolds": {
         "region": "Docks",
-        "requirements": {"randomize_customers" : {"has_any" : [["Kelly Reynolds Unlocked", "Salvador Moreno Unlocked", "Lisa Gardener Unlocked"]]}},
+        "requirements": {"randomize_customers" : {"has_any" : [["Kelly Reynolds Unlocked", "Lisa Gardener Unlocked"]]}},
         "tags": ["Customer"],
         "modern_id": 345
     },
