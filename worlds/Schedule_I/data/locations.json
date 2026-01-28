@@ -1335,15 +1335,13 @@
     },
     "Successful Sample: Beth Penn": {
         "region": "Northtown",
-        "requirements": {"randomize_customers" : {"has_any" : [["Beth Penn Unlocked", "Peggy Myers Unlocked", "Mrs. Ming Unlocked"]]},
-                         "randomize_dealers" : {"has" : "Benji Coleman Recruited"}},
+        "requirements": {"randomize_customers" : {"has_any" : [["Beth Penn Unlocked", "Peggy Myers Unlocked", "Mrs. Ming Unlocked"]]}},
         "tags": ["Customer"],
         "modern_id": 306
     },
     "Successful Sample: Chloe Bowers": {
         "region": "Northtown",
-        "requirements": {"randomize_customers" : {"has_any" : [["Chloe Bowers Unlocked", "Sam Thompson Unlocked"]]},
-                         "randomize_dealers" : {"has" : "Benji Coleman Recruited"}},
+        "requirements": {"randomize_customers" : {"has_any" : [["Chloe Bowers Unlocked", "Sam Thompson Unlocked"]]}},
         "tags": ["Customer"],
         "modern_id": 307
     },
@@ -1361,8 +1359,7 @@
     },
     "Successful Sample: Ludwig Meyer": {
         "region": "Northtown",
-        "requirements": {"randomize_customers" : {"has_any" : [["Ludwig Meyer Unlocked", "Peter File Unlocked", "Mrs. Ming Unlocked"]]},
-                         "randomize_dealers" : {"has" : "Benji Coleman Recruited"}},
+        "requirements": {"randomize_customers" : {"has_any" : [["Ludwig Meyer Unlocked", "Peter File Unlocked", "Mrs. Ming Unlocked"]]}},
         "tags": ["Customer"],
         "modern_id": 313
     },
