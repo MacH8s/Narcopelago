@@ -606,7 +606,8 @@
         "modern_id": 123
     },
     "Jen Heard Unlocked": {
-        "classification": {"default" : ["PROGRESSION_SKIP_BALANCING", "USEFUL"]},
+        "classification": {"default" : ["PROGRESSION_SKIP_BALANCING", "USEFUL"],
+                           "randomize_sewer_key" : ["PROGRESSION", "USEFUL"]},
         "tags": ["Uptown", "Customer"],
         "modern_id": 124
     },
@@ -1194,6 +1195,16 @@
         "classification": {"default" : ["FILLER"]},
         "tags": ["Amazing Filler"],
         "modern_id": 255
+    },
+    "Sewer Office": {
+        "classification": {"default" : ["PROGRESSION_SKIP_BALANCING"]},
+        "tags": ["Drug Making Property"],
+        "modern_id": 256
+    },
+    "Sewer Key": {
+        "classification": {"default" : ["PROGRESSION_SKIP_BALANCING"]},
+        "tags": ["Sewer", "Progression Skip Filler"],
+        "modern_id": 257
     },
     "Cartel Influence, Westville": {
         "classification": {"default" : ["PROGRESSION_SKIP_BALANCING"]},

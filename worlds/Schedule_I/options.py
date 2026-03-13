@@ -181,7 +181,7 @@ class RandomizeDrugMakingProperties(DefaultOnToggle):
     Determines if drug making properties will be added into the item pool.
     Purchasing drug making properties become checks, but you do not purchase them.
     Realtor will have AP items instead of drug making properties if this is enabled.
-    This does not include ones you must purchase through missions or the sewer office.
+    This does not include ones you must purchase through missions.
     """
     display_name = "Randomize drug making Properties"
 
@@ -218,6 +218,15 @@ class RandomizeSuppliers(DefaultOnToggle):
     Albert Hoover is unlocked by default
     """
     display_name = "Randomize Suppliers"
+
+
+class RandomizeSewerKey(DefaultOnToggle):
+    """
+    Determines if the Sewer Key will be added into the item pool.
+    If enabled, Jen Herd will no longer sell sewer key.
+    Buying the sewer key from Jen Herd is a check no matter if this option is toggled on or off.
+    """
+    display_name = "Randomize Sewer Key"
 
 class RecipeChecks(Range):
     """
@@ -261,6 +270,7 @@ class Schedule1Options(PerGameCommonOptions):
     randomize_dealers: RandomizeDealers
     randomize_customers: RandomizeCustomers
     randomize_suppliers: RandomizeSuppliers
+    randomize_sewer_key: RandomizeSewerKey
     recipe_checks: RecipeChecks
     cash_for_trash: CashForTrash
     death_link: DeathLink
@@ -275,7 +285,7 @@ option_groups = [
          NumberOfCashBundles, AmountOfCashPerBundleMin, AmountOfCashPerBundleMax,  
          BanBadFillerItems, BanProgressionSkipItems, TrapChance,  
          RandomizeLevelUnlocks, RandomizeCartelInfluence, CartelInfluenceItemsPerRegion,   
-         RandomizeCustomers, RandomizeDealers, RandomizeSuppliers,
+         RandomizeCustomers, RandomizeDealers, RandomizeSuppliers, RandomizeSewerKey,
          RandomizeDrugMakingProperties, RandomizeBusinessProperties,  
          RecipeChecks, CashForTrash, 
          DeathLink],
@@ -306,6 +316,7 @@ option_presets = {
         "cash_for_trash": CashForTrash.default,
         "randomize_level_unlocks": True,
         "randomize_suppliers": True,
+        "randomize_sewer_key": True,
         "death_link": DeathLink.default,
     }
 }
