@@ -21,6 +21,7 @@ and the [The Schedule I apworld](https://github.com/MacH8s/Narcopelago/releases/
 Install Thunderstore Mod Manager and open it.
 Choose Schedule I and make a profile for Archipelago, name it whatever you like.
 Search for 'Narcopelago' in the mod search and install it.
+Install Melonloader ***0.7.1*** from the mod search.  
 From there you can launch the game as Modded on the top right and your install has been complete! You must launch the game this way every time you want to play Archipelago.
 
 ### Joining Game
