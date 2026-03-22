@@ -641,11 +641,6 @@
         "tags": ["Uptown", "Customer"],
         "modern_id": 130
     },
-    "Benji Coleman Recruited": {
-        "classification": {"default" : ["PROGRESSION", "USEFUL"]},
-        "tags": ["Northtown", "Dealer", "default"],
-        "modern_id": 216
-    },
     "Shirley Watts Unlocked": {
         "classification": {"default" : ["PROGRESSION", "USEFUL"]},
         "tags": ["Westville", "Supplier"],

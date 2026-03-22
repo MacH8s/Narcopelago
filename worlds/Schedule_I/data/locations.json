@@ -1608,7 +1608,7 @@
     },
     "Successful Sample: Jackie Stevenson": {
         "region": "Suburbia",
-        "requirements": {"randomize_customers" : {"has_any" : [["Jack Knight Unlocked", "Dennis Kennedy Unlocked", "Hank Stevenson Unlocked"]]},
+        "requirements": {"randomize_customers" : {"has_any" : [["Jackie Stevenson Unlocked", "Dennis Kennedy Unlocked", "Hank Stevenson Unlocked"]]},
                          "randomize_dealers" : {"has" : "Wei Long Recruited"}},
         "tags": ["Customer"],
         "modern_id": 358
