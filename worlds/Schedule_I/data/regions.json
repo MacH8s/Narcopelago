@@ -7,7 +7,7 @@
     },
     "Northtown": {
         "connections": {"Westville": {"randomize_level_unlocks&!randomize_customers" : {"has": "Westville Region Unlock"}},
-                        "Weed Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]]}}}
+                        "Weed Recipe Checks": {"randomize_level_unlocks" : {"has": "Mixing Station Unlock"}}}
     },
     "Westville": {
         "connections": {"Downtown": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Westville": 2}}},
@@ -30,7 +30,7 @@
     "Docks": {
         "connections": {"Suburbia": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Docks": 7}}},
                         "Cocaine Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]],
-                                                               "has_all" : ["Cauldron Unlock", "Lab Oven Unlock", "Gasoline Unlock"]},
+                                                               "has_all" : ["Cauldron Unlock", "Lab Oven Unlock", "Gasoline Unlock", "Warehouse Access"]},
                                   "randomize_suppliers" : {"has": "Salvador Moreno Unlocked"},
                                   "randomize_customers&!randomize_suppliers" : {"has_any" : [["Mac Cooper Unlocked", "Javier Pérez Unlocked"]]}}}
     },
