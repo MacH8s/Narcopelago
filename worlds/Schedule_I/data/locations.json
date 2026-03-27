@@ -997,6 +997,12 @@
         "tags": ["Level Up Reward"],
         "modern_id": 378
     },
+    "Rank Bagman III": {
+        "region": "We Need To Cook|1",
+        "requirements": true,
+        "tags": ["Level Up Reward"],
+        "modern_id": 379
+    },
     "Rank Bagman V": {
         "region": "We Need To Cook|2",
         "requirements": true,
@@ -1008,6 +1014,12 @@
         "requirements": true,
         "tags": ["Level Up Reward"],
         "modern_id": 147
+    },
+    "Rank Shot Caller I": {
+        "region": "Unfavourable Agreements",
+        "requirements": true,
+        "tags": ["Level Up Reward"],
+        "modern_id": 380
     },
     "Rank Block Boss I": {
         "region": "Finishing the Job",
