@@ -1201,6 +1201,26 @@
         "tags": ["Sewer", "Progression Skip Filler"],
         "modern_id": 257
     },
+    "Golden M1911": {
+        "classification": {"default" : ["FILLER"]},
+        "tags": ["Amazing Filler"],
+        "modern_id": 258
+    },
+    "Golden M1911 Unlock": {
+        "classification": {"default" : ["USEFUL"]},
+        "tags": ["Level Up Reward"],
+        "modern_id": 259
+    },
+    "Big Sprinkler": {
+        "classification": {"default" : ["FILLER"]},
+        "tags": ["Better Filler"],
+        "modern_id": 260
+    },
+    "Big Sprinkler Unlock": {
+        "classification": {"default" : ["USEFUL"]},
+        "tags": ["Level Up Reward"],
+        "modern_id": 261
+    },
     "Cartel Influence, Westville": {
         "classification": {"default" : ["PROGRESSION_SKIP_BALANCING"]},
         "tags": ["Cartel Influence", "Westville"],
