@@ -6,6 +6,7 @@
 !/worlds/
 /worlds/*
 !/worlds/Schedule_I/
+!readme.md
 
 # Ignore common artifacts inside tracked folders
 __pycache__/
