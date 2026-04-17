@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 from Options import (Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions, 
-                    Range, DeathLink)
+                    Range, OptionSet ,DeathLink)
 
 # In this file, we define the options the player can pick.
 # The most common types of options are Toggle, Range and Choice.
@@ -246,6 +246,16 @@ class CashForTrash(Range):
     range_start = 0
     range_end = 50
     default = 5
+
+class DeathLinkOptions(OptionSet):
+    """
+    Specify how deathlink will affect you.
+    traps include: Heat Trap, Slippery Trap, Trash Trap, Pan Trap, TimeScale Trap, Sleep Trap
+    Death sends players to the hospital (Cash Fee). The mod does not reset to last save on death.
+    Recommended: Use either random trap or death or both. Sleep trap is okay too. Arrested is especially brutal.
+    """
+    display_name = "Death Link Options"
+    valid_keys = ["sleep trap", "arrested", "random trap", "death"]
 
 # We must now define a dataclass inheriting from PerGameCommonOptions that we put all our options in.
 # This is in the format "option_name_in_snake_case: OptionClassName".
