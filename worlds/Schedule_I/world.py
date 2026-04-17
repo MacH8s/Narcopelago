@@ -106,5 +106,6 @@ class Schedule1World(World):
             "cash_for_trash",
             "randomize_level_unlocks",
             "randomize_sewer_key",
-            "death_link"
+            "death_link",
+            "death_link_options"
         )

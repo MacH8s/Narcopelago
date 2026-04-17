@@ -284,6 +284,7 @@ class Schedule1Options(PerGameCommonOptions):
     recipe_checks: RecipeChecks
     cash_for_trash: CashForTrash
     death_link: DeathLink
+    death_link_options: DeathLinkOptions
 
 
 
@@ -298,7 +299,7 @@ option_groups = [
          RandomizeCustomers, RandomizeDealers, RandomizeSuppliers, RandomizeSewerKey,
          RandomizeDrugMakingProperties, RandomizeBusinessProperties,  
          RecipeChecks, CashForTrash, 
-         DeathLink],
+         DeathLink, DeathLinkOptions],
     )
 ]
 
@@ -328,5 +329,6 @@ option_presets = {
         "randomize_suppliers": True,
         "randomize_sewer_key": True,
         "death_link": DeathLink.default,
+        "death_link_options": DeathLinkOptions.default,
     }
 }
