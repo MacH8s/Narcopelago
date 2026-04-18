@@ -22,19 +22,46 @@ from Options import (Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions,
 class Goal(Choice):
     """
     The goal to win the game.
-    missions_networth: Reach a specificed net worth and complete the main story.
-    networth_only: Reach a specificed net worth.
-    missions_only: Complete the main story.
+    Bomb Fragments: A MacGuffin item goal. Must recieve all bomb fragments to goal.
+    networth: Reach a specificed net worth to goal.
+    missions_: Complete the main story, defeat the cartel to goal
+        - 700 Suburbia cartel influence (7 cartel items) is required to defeat the cartel.
     """
     
     display_name = "Goal"
 
-    option_networth_only = 0
-    option_missions_networth = 1
-    option_missions_only = 2
+    option_bomb_fragments_only = 0
+    option_missions_only = 1
+    option_missions_networth = 2
+    option_missions_bomb_fragments = 3
+    option_missions_networth_bomb_fragments = 4
 
-    # Choice options must define an explicit default value.
     default = option_missions_networth
+
+class NumberOfBombFragmentsRequired(Range):
+    """
+    The number of bomb fragments required to win the game.
+    This option is only relevant if the goal includes bomb fragments.
+    The default value is 5.
+    """
+    display_name = "Number of Bomb Fragments Required"
+    range_start = 5
+    range_end = 20
+    default = 10
+
+
+class NumberOfExtraBombFragments(Range):
+    """
+    The number of extra bomb fragments to include in the item pool.
+    This option is only relevant if the goal includes bomb fragments.
+    The default value is 2. Make sure to accomadate for how many required.
+    Recommended value to have ~25-33% extra fragments.
+    """
+    display_name = "Number of Extra Bomb Fragments"
+    range_start = 0
+    range_end = 10
+    default = 2
+
 
 class RandomizeLevelUnlocks(DefaultOnToggle):
     """
@@ -268,6 +295,8 @@ class DeathLinkOptions(OptionSet):
 class Schedule1Options(PerGameCommonOptions):
     goal: Goal
     networth_amount_required: NetworthAmountRequired
+    number_of_bomb_fragments_required: NumberOfBombFragmentsRequired
+    number_of_extra_bomb_fragments: NumberOfExtraBombFragments
     ban_bad_filler_items: BanBadFillerItems
     ban_progression_skip_items: BanProgressionSkipItems
     trap_chance: TrapChance
@@ -297,7 +326,7 @@ class Schedule1Options(PerGameCommonOptions):
 option_groups = [
     OptionGroup(
         "Gameplay Options",
-        [Goal, NetworthAmountRequired, NumberOfXpBundles, AmountOfXpPerBundleMin, AmountOfXpPerBundleMax, 
+        [Goal, NetworthAmountRequired,NumberOfBombFragmentsRequired, NumberOfExtraBombFragments, NumberOfXpBundles, AmountOfXpPerBundleMin, AmountOfXpPerBundleMax, 
          NumberOfCashBundles, AmountOfCashPerBundleMin, AmountOfCashPerBundleMax,  
          BanBadFillerItems, BanProgressionSkipItems, TrapChance,  
          RandomizeLevelUnlocks, RandomizeCartelInfluence, CartelInfluenceItemsPerRegion,   
@@ -312,6 +341,8 @@ option_groups = [
 option_presets = {
     "Default": {
         "goal": Goal.default,
+        "number_of_bomb_fragments_required": NumberOfBombFragmentsRequired.default,
+        "number_of_extra_bomb_fragments": NumberOfExtraBombFragments.default,
         "number_of_xp_bundles": NumberOfXpBundles.default,
         "amount_of_xp_per_bundle_min": AmountOfXpPerBundleMin.default,
         "amount_of_xp_per_bundle_max": AmountOfXpPerBundleMax.default,

@@ -85,6 +85,8 @@ class Schedule1World(World):
         # If you need access to the player's chosen options on the client side, there is a helper for that.
         return self.options.as_dict(
             "goal",
+            "number_of_bomb_fragments_required",
+            "number_of_extra_bomb_fragments",
             "number_of_xp_bundles",
             "amount_of_xp_per_bundle_min",
             "amount_of_xp_per_bundle_max",

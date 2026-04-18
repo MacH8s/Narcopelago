@@ -1285,5 +1285,10 @@
         "classification": {"default" : ["TRAP"]},
         "tags": ["Trap"],
         "modern_id": 656
+    },
+    "Bomb Fragment": {
+        "classification": {"default" : ["PROGRESSION_SKIP_BALANCING"]},
+        "tags": ["MacGuffin"],
+        "modern_id": 0
     }
 }
