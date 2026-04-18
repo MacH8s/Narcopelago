@@ -251,8 +251,13 @@ class DeathLinkOptions(OptionSet):
     """
     Specify how deathlink will affect you.
     traps include: Heat Trap, Slippery Trap, Trash Trap, Pan Trap, TimeScale Trap, Sleep Trap
-    Death sends players to the hospital (Cash Fee). The mod does not reset to last save on death.
+    Death sends players to the hospital (Cash Fee). 
     Recommended: Use either random trap or death or both. Sleep trap is okay too. Arrested is especially brutal.
+    Options:
+    - sleep trap: Ends day.
+    - arrested: Player is arrested and loses all illegal items in their inventory.
+    - random trap: Player will be affected by a random trap.
+    - death: Player will be sent to the hospital upon death (Cash Fee). The mod does not reset to last save on death.
     """
     display_name = "Death Link Options"
     valid_keys = ["sleep trap", "arrested", "random trap", "death"]
