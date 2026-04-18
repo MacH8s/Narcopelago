@@ -157,7 +157,8 @@ def create_all_items(world: Schedule1World, data) -> None:
     # Add bomb fragment items into the pool
     if world.options.goal in [world.options.goal.option_bomb_fragments_only,
                               world.options.goal.option_missions_bomb_fragments, 
-                              world.options.goal.option_missions_networth_bomb_fragments]:
+                              world.options.goal.option_missions_networth_bomb_fragments,
+                              world.options.goal.option_bomb_fragments_networth]:
         for _ in range(world.options.number_of_bomb_fragments_required + world.options.number_of_extra_bomb_fragments):
             itempool += [world.create_item("Bomb Fragment")]
 

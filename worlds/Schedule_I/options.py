@@ -35,6 +35,7 @@ class Goal(Choice):
     option_missions_networth = 2
     option_missions_bomb_fragments = 3
     option_missions_networth_bomb_fragments = 4
+    option_bomb_fragments_networth = 5
 
     default = option_missions_networth
 

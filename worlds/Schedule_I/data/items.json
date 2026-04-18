@@ -1289,6 +1289,6 @@
     "Bomb Fragment": {
         "classification": {"default" : ["PROGRESSION_SKIP_BALANCING"]},
         "tags": ["MacGuffin"],
-        "modern_id": 0
+        "modern_id": 600
     }
 }

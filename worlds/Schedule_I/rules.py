@@ -246,9 +246,10 @@ def set_completion_condition(world: Schedule1World, victoryData) -> None:
     #   2 = missions_networth: complete cartel missions (networth checked in-game)
     #   3 = missions_bomb_fragments: complete cartel missions AND collect N bomb fragments
     #   4 = missions_networth_bomb_fragments: complete cartel missions AND collect N bomb fragments (networth in-game)
+    #   5 = bomb_fragments_networth: collect N bomb fragments (networth checked in-game)
 
     requires_missions = world.options.goal in (1, 2, 3, 4)
-    requires_fragments = world.options.goal in (0, 3, 4)
+    requires_fragments = world.options.goal in (0, 3, 4, 5)
 
     rules: list[Callable[[CollectionState], bool]] = []
 
