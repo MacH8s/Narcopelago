@@ -71,7 +71,7 @@ Make sure to save as often as you can, and you are able to rejoin. Restart your 
 If you want to play with friends (Untested): Invite them to your lobby. All of you connect as same archipelago Info, Load into world.
 
 ## Tracker: Use the Pop Tracker!
-[Poptracker by Razgriz] (https://github.com/RazgrizEast/schedule-1-poptracker-razgriz/releases/latest)
+[Poptracker by Razgriz](https://github.com/RazgrizEast/schedule-1-poptracker-razgriz/releases/latest)
 
 ## Multiplayer
 Everyone connect using AP as same player/yaml name. 
