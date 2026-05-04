@@ -242,7 +242,7 @@ def create_all_items(world: Schedule1World, data) -> None:
 
     filler_conditions = {
         "Bad Filler" : world.options.ban_bad_filler_items, 
-        "Ban Progression Skip" : world.options.ban_progression_skip_items}
+        "Progression Skip Filler" : world.options.ban_progression_skip_items}
     
     # set up fillers
     for item in data.items.values():
