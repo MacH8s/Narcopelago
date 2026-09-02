@@ -20,6 +20,31 @@ def set_all_rules(world: Schedule1World, locationData, regionData, victoryData) 
     set_completion_condition(world, victoryData)
 
 
+# Customers, dealers and suppliers are alternate routes to the same unlock: any one of them is
+# enough. Every other option group (level unlocks, cartel influence, properties, ...) is a hard
+# gate that must always hold on top of that.
+PEOPLE_UNLOCK_OPTIONS = frozenset({
+    "randomize_customers",
+    "randomize_dealers",
+    "randomize_suppliers",
+})
+
+
+def is_people_unlock_condition(condition_key: str) -> bool:
+    """
+    Check whether a requirement group is a customer/dealer/supplier unlock route.
+
+    Only non-negated parts count. In a key like "randomize_cartel_influence&!randomize_customers"
+    the "!randomize_customers" part is an applicability guard, not a requirement source, so that
+    group is a hard gate rather than an unlock route.
+    """
+    positive_options = {
+        part.strip() for part in condition_key.split('&')
+        if part.strip() and not part.strip().startswith('!')
+    }
+    return bool(positive_options & PEOPLE_UNLOCK_OPTIONS)
+
+
 def check_option_enabled(world: Schedule1World, option_name: str) -> bool:
     """Check if an option is enabled based on option name string from JSON."""
     option_map = {
@@ -118,16 +143,17 @@ def build_requirement_check(world: Schedule1World, method_name: str, value: Any)
     return lambda state: True
 
 
-def build_rule_from_requirements(world: Schedule1World, requirements: Union[bool, Dict[str, Any]], use_or_logic: bool = False) -> Callable[[CollectionState], bool]:
+def build_rule_from_requirements(world: Schedule1World, requirements: Union[bool, Dict[str, Any]], combine_people_unlocks: bool = True) -> Callable[[CollectionState], bool]:
     """
     Build a rule function from the requirements structure.
-    
+
     requirements can be:
     - True (always accessible)
     - A dict with option conditions as keys
-    
-    use_or_logic: If True, only ONE condition needs to be satisfied (for Customer/Dealer/Supplier tags)
-                  If False, ALL applicable conditions must be satisfied
+
+    combine_people_unlocks: If True, the customer/dealer/supplier groups are OR'd together
+                            (any one of them unlocks the check) and every other group is AND'd
+                            on top. If False, ALL applicable groups must be satisfied.
     """
     if requirements is True:
         return lambda state: True
@@ -154,26 +180,30 @@ def build_rule_from_requirements(world: Schedule1World, requirements: Union[bool
         return lambda state: True
     
     def rule_function(state: CollectionState) -> bool:
-        results = []
-        
+        unlock_results = []
+        gate_results = []
+
         for condition_key, check_functions in condition_checks:
-            if check_option_condition(world, condition_key):
-                # This option condition is satisfied, so its checks matter
-                # All checks within this condition must pass
-                option_result = all(check(state) for check in check_functions)
-                results.append(option_result)
-        
-        if not results:
-            # No applicable options enabled - rule passes
-            return True
-        
-        if use_or_logic:
-            # For Customer/Dealer/Supplier: only one needs to pass
-            return any(results)
-        else:
-            # For all others: all must pass
-            return all(results)
-    
+            if not check_option_condition(world, condition_key):
+                # This option condition does not apply, so its checks are irrelevant
+                continue
+
+            # All checks within this condition must pass
+            option_result = all(check(state) for check in check_functions)
+
+            if combine_people_unlocks and is_people_unlock_condition(condition_key):
+                unlock_results.append(option_result)
+            else:
+                gate_results.append(option_result)
+
+        # Customer/dealer/supplier groups are alternate routes: at least one must pass.
+        if unlock_results and not any(unlock_results):
+            return False
+
+        # Every other applicable group is a hard gate and must pass regardless.
+        # With no applicable groups at all, both lists are empty and the rule passes.
+        return all(gate_results)
+
     return rule_function
 
 
@@ -201,7 +231,7 @@ def set_all_entrance_rules(world: Schedule1World, regionData) -> None:
                 continue
             
             entrance = entrances_dict[entrance_name]
-            rule = build_rule_from_requirements(world, requirements, use_or_logic=False)
+            rule = build_rule_from_requirements(world, requirements)
             set_rule(entrance, rule)
 
 
@@ -229,12 +259,8 @@ def set_all_location_rules(world: Schedule1World, locationData) -> None:
         
         location = locations_dict[loc_name]
         requirements = loc_data.requirements
-        
-        # Determine if this location uses OR logic (Customer, Dealer, or Supplier tags)
-        tags = loc_data.tags
-        use_or_logic = any(tag in tags for tag in ["Customer", "Dealer", "Supplier"])
-        
-        rule = build_rule_from_requirements(world, requirements, use_or_logic=use_or_logic)
+
+        rule = build_rule_from_requirements(world, requirements)
         set_rule(location, rule)
 
 
@@ -254,7 +280,9 @@ def set_completion_condition(world: Schedule1World, victoryData) -> None:
     rules: list[Callable[[CollectionState], bool]] = []
 
     if requires_missions:
-        rules.append(build_rule_from_requirements(world, victoryData.requirements, use_or_logic=False))
+        # victory.json lists customers and suppliers as independent goal requirements rather than
+        # as alternate unlock routes, so every group is AND'd here.
+        rules.append(build_rule_from_requirements(world, victoryData.requirements, combine_people_unlocks=False))
 
     if requires_fragments:
         fragments_required = int(world.options.number_of_bomb_fragments_required)
