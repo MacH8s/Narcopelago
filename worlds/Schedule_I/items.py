@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING
 
 from BaseClasses import Item, ItemClassification
 
+from .options import check_option_condition
+
 if TYPE_CHECKING:
     from .world import Schedule1World
 
@@ -50,54 +52,6 @@ def get_random_filler_item_name(world: Schedule1World) -> str:
     
     # Otherwise, return a random filler item.
     return world.random.choice(fillers)
-
-
-def check_option_enabled(world: Schedule1World, option_name: str) -> bool:
-    """Check if an option is enabled based on option name string."""
-    option_map = {
-        "randomize_customers": world.options.randomize_customers,
-        "randomize_dealers": world.options.randomize_dealers,
-        "randomize_suppliers": world.options.randomize_suppliers,
-        "randomize_level_unlocks": world.options.randomize_level_unlocks,
-        "randomize_cartel_influence": world.options.randomize_cartel_influence,
-        "randomize_business_properties": world.options.randomize_business_properties,
-        "randomize_drug_making_properties": world.options.randomize_drug_making_properties,
-    }
-    return bool(option_map.get(option_name, False))
-
-
-def check_option_condition(world: Schedule1World, condition_key: str) -> bool:
-    """
-    Parse and evaluate a compound option condition string.
-    
-    Supports:
-    - Simple: "randomize_level_unlocks" (option must be true)
-    - Negation: "!randomize_level_unlocks" (option must be false)
-    - Compound AND: "randomize_level_unlocks&!randomize_customers" 
-      (first must be true AND second must be false)
-    
-    Returns True if the condition is satisfied, False otherwise.
-    """
-    parts = condition_key.split('&')
-    
-    for part in parts:
-        part = part.strip()
-        if not part:
-            continue
-        
-        if part.startswith('!'):
-            option_name = part[1:]
-            expected_value = False
-        else:
-            option_name = part
-            expected_value = True
-        
-        actual_value = check_option_enabled(world, option_name)
-        
-        if actual_value != expected_value:
-            return False
-    
-    return True
 
 
 def resolve_classification(world: Schedule1World, classification_data) -> ItemClassification:

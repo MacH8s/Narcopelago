@@ -11,7 +11,7 @@
     },
     "Westville": {
         "connections": {"Downtown": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Westville": 2}}},
-                        "Meth Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]],
+                        "Meth Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk2 Unlock",  "Mixing Station Unlock"]],
                                                                             "has" : "Warehouse Access"},
                                                "randomize_suppliers" : {"has": "Shirley Watts Unlocked"},
                                                "randomize_customers&!randomize_suppliers" : {"has_any" : [["Meg Cooley Unlocked", "Jerry Montero Unlocked"]]}}}
@@ -25,10 +25,10 @@
     },
     "Docks": {
         "connections": {"Suburbia": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Docks": 7}}},
-                        "Cocaine Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]],
+                        "Cocaine Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk2 Unlock",  "Mixing Station Unlock"]],
                                                                "has_all" : ["Cauldron Unlock", "Gasoline Unlock", "Warehouse Access"]},
                                   "randomize_suppliers" : {"has": "Salvador Moreno Unlocked"},
-                                  "randomize_customers&!randomize_suppliers" : {"has_any" : [["Mac Cooper Unlocked", "Javier Pérez Unlocked"]]}}}
+                                  "randomize_customers&!randomize_suppliers" : {"has_any" : [["Mac Cooper Unlocked", "Javier Pérez Unlocked"]]}}}
     },
     "Suburbia": {
         "connections": {"Uptown": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Suburbia": 7}},
@@ -196,7 +196,7 @@
     },
     "Vibin' on the 'Cybin": {
         "connections": {
-            "Shrooms Recipe Checks": {"randomize_level_unlocks": {"has_any": [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]]}}
+            "Shrooms Recipe Checks": {"randomize_level_unlocks": {"has_any": [["Mixing Station Mk2 Unlock",  "Mixing Station Unlock"]]}}
         }
     },
     "Wretched Hive of Scum and Villainy": {

@@ -79,7 +79,7 @@
                                                 ["Meg Cooley Unlocked", "Jerry Montero Unlocked"],
                                                 ["Mac Cooper Unlocked", "Javier Pérez Unlocked"]],
                                 "has_all" : ["Billy Kramer Unlocked", "Sam Thompson Unlocked"]},
-    "randomize_level_unlocks" : {"has_any" : [["Mixing Station Mk II Unlock",  "Mixing Station Unlock"]],
+    "randomize_level_unlocks" : {"has_any" : [["Mixing Station Mk2 Unlock",  "Mixing Station Unlock"]],
                                  "has_all" : [
                                     "Cauldron Unlock", 
                                     "Gasoline Unlock", 

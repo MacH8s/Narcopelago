@@ -1,7 +1,13 @@
-from dataclasses import dataclass
+from __future__ import annotations
 
-from Options import (Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions, 
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
+
+from Options import (Choice, DefaultOnToggle, OptionGroup, PerGameCommonOptions,
                     Range, OptionSet ,DeathLink)
+
+if TYPE_CHECKING:
+    from .world import Schedule1World
 
 # In this file, we define the options the player can pick.
 # The most common types of options are Toggle, Range and Choice.
@@ -321,6 +327,63 @@ class Schedule1Options(PerGameCommonOptions):
     death_link: DeathLink
     death_link_options: DeathLinkOptions
 
+
+# Our JSON data files key their requirements and classifications on option-condition strings.
+# Both rules.py and items.py need to evaluate those strings, so they live here, next to the
+# options they read. Keep this as the only implementation - a second copy will drift.
+def check_option_enabled(world: "Schedule1World", option_name: str) -> bool:
+    """
+    Check if an option is enabled based on option name string from JSON.
+
+    The option is read straight off the options dataclass, so every option defined in
+    Schedule1Options works automatically and there is no list to keep in sync. An unknown
+    name is a typo in the JSON data (or an option that was renamed) and raises, because
+    silently treating it as disabled would drop the requirement from logic entirely.
+    """
+    if not hasattr(world.options, option_name):
+        raise ValueError(
+            f"Unknown option '{option_name}' in an option-condition string. "
+            f"It must match a field name on Schedule1Options."
+        )
+    return bool(getattr(world.options, option_name))
+
+
+def check_option_condition(world: "Schedule1World", condition_key: str) -> bool:
+    """
+    Parse and evaluate a compound option condition string.
+
+    Supports:
+    - Simple: "randomize_level_unlocks" (option must be true)
+    - Negation: "!randomize_level_unlocks" (option must be false)
+    - Compound AND: "randomize_level_unlocks&!randomize_customers"
+      (first must be true AND second must be false)
+
+    Returns True if the condition is satisfied, False otherwise.
+    """
+    # Split by '&' to get individual conditions
+    parts = condition_key.split('&')
+
+    for part in parts:
+        part = part.strip()
+        if not part:
+            continue
+
+        # Check for negation prefix
+        if part.startswith('!'):
+            option_name = part[1:]
+            expected_value = False
+        else:
+            option_name = part
+            expected_value = True
+
+        # Get the actual option value
+        actual_value = check_option_enabled(world, option_name)
+
+        # If this part doesn't match expected, the whole condition fails
+        if actual_value != expected_value:
+            return False
+
+    return True
 
 
 # If we want to group our options by similar type, we can do so as well. This looks nice on the website.

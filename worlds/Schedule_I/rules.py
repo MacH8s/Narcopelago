@@ -5,6 +5,9 @@ from typing import TYPE_CHECKING, Callable, Dict, Any, Union
 from BaseClasses import CollectionState
 from worlds.generic.Rules import add_rule, set_rule
 
+from . import items
+from .options import check_option_condition
+
 if TYPE_CHECKING:
     from .world import Schedule1World
 
@@ -45,71 +48,55 @@ def is_people_unlock_condition(condition_key: str) -> bool:
     return bool(positive_options & PEOPLE_UNLOCK_OPTIONS)
 
 
-def check_option_enabled(world: Schedule1World, option_name: str) -> bool:
-    """Check if an option is enabled based on option name string from JSON."""
-    option_map = {
-        "randomize_customers": world.options.randomize_customers,
-        "randomize_dealers": world.options.randomize_dealers,
-        "randomize_suppliers": world.options.randomize_suppliers,
-        "randomize_level_unlocks": world.options.randomize_level_unlocks,
-        "randomize_cartel_influence": world.options.randomize_cartel_influence,
-        "randomize_business_properties": world.options.randomize_business_properties,
-        "randomize_drug_making_properties": world.options.randomize_drug_making_properties,
-    }
-    return bool(option_map.get(option_name, False))
+def referenced_item_names(method_name: str, value: Any) -> list[str]:
+    """Collect every item name a requirement value refers to, so they can be validated."""
+    if method_name == "has":
+        return [value]
 
+    if method_name == "has_any":
+        groups = value if value and isinstance(value[0], list) else [value]
+        return [name for group in groups for name in group]
 
-def check_option_condition(world: Schedule1World, condition_key: str) -> bool:
-    """
-    Parse and evaluate a compound option condition string.
-    
-    Supports:
-    - Simple: "randomize_level_unlocks" (option must be true)
-    - Negation: "!randomize_level_unlocks" (option must be false)
-    - Compound AND: "randomize_level_unlocks&!randomize_customers" 
-      (first must be true AND second must be false)
-    
-    Returns True if the condition is satisfied, False otherwise.
-    """
-    # Split by '&' to get individual conditions
-    parts = condition_key.split('&')
-    
-    for part in parts:
-        part = part.strip()
-        if not part:
-            continue
-        
-        # Check for negation prefix
-        if part.startswith('!'):
-            option_name = part[1:]
-            expected_value = False
-        else:
-            option_name = part
-            expected_value = True
-        
-        # Get the actual option value
-        actual_value = check_option_enabled(world, option_name)
-        
-        # If this part doesn't match expected, the whole condition fails
-        if actual_value != expected_value:
-            return False
-    
-    return True
+    if method_name in ("has_all", "has_all_counts"):
+        # has_all is a list of names, has_all_counts is a dict keyed by name
+        return list(value)
+
+    if method_name == "has_from_list":
+        tiers = value if isinstance(value, list) else [value]
+        return [name for tier in tiers for name in tier]
+
+    return []
 
 
 def build_requirement_check(world: Schedule1World, method_name: str, value: Any) -> Callable[[CollectionState], bool]:
     """Build a requirement check function based on the method name and value from JSON."""
-    
+
+    # A misspelled item name can never be satisfied, which quietly weakens or over-tightens
+    # logic depending on the check it sits in. Catch it at generation time instead.
+    # A non-string entry means the value is the wrong shape for this method, which is worth
+    # reporting the same way rather than blowing up later with a confusing error.
+    unknown_items = [name for name in referenced_item_names(method_name, value)
+                     if not isinstance(name, str) or name not in items.ITEM_NAME_TO_ID]
+    if unknown_items:
+        raise ValueError(
+            f"Unknown item name(s) {unknown_items} in a '{method_name}' requirement. "
+            f"They must exactly match a key in items.json."
+        )
+
     if method_name == "has":
         # value is a single item name string
         return lambda state, v=value: state.has(v, world.player)
     
     elif method_name == "has_any":
-        # value is a list of lists, e.g. [["Item1", "Item2"]]
-        # We take the first list as the items to check
-        items = value[0] if isinstance(value[0], list) else value
-        return lambda state, v=items: state.has_any(v, world.player)
-    
+        # value is a list of lists, e.g. [["Item1", "Item2"], ["Item3", "Item4"]]
+        # Each inner list is its own requirement, so the player needs at least one item out of
+        # every list. This mirrors how has_from_list treats a list of dicts.
+        # A bare list of item names is accepted as a single group.
+        groups = value if value and isinstance(value[0], list) else [value]
+        return lambda state, g=groups: all(
+            state.has_any(items, world.player) for items in g
+        )
+
     elif method_name == "has_all":
         # value is a list of item names
         return lambda state, v=value: state.has_all(v, world.player)
@@ -139,8 +126,12 @@ def build_requirement_check(world: Schedule1World, method_name: str, value: Any)
             count = list(value.values())[0]  # All values should be the same count
             return lambda state, k=keys, c=count: state.has_from_list(k, world.player, c)
     
-    # Default: always true
-    return lambda state: True
+    # An unrecognised method is a typo in the JSON data. Returning an always-true check here
+    # would silently drop the requirement from logic, so fail loudly instead.
+    raise ValueError(
+        f"Unknown requirement method '{method_name}' in the JSON data. "
+        f"Supported methods: has, has_any, has_all, has_all_counts, has_from_list."
+    )
 
 
 def build_rule_from_requirements(world: Schedule1World, requirements: Union[bool, Dict[str, Any]], combine_people_unlocks: bool = True) -> Callable[[CollectionState], bool]:
