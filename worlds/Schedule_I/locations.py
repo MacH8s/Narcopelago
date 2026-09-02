@@ -101,18 +101,27 @@ def create_regular_locations(world: Schedule1World, data) -> None:
             region.add_locations(recipe_locations_dict, Schedule1Location)
         
     # Cash for Trash checks - Only include the number specified by the CashForTrash option
-    # Add to Overworld region
+    # Spread across regions by how much trash the check asks for, so later checks sit in later regions:
+    # the first 100 pieces go in Overworld, the next 100 in Dodgy Dealing, and so on up to 500.
     cash_for_trash_count = world.options.cash_for_trash
     if cash_for_trash_count > 0:
-        regions = {
+        # Keyed by the highest trash count that belongs in each region.
+        cash_for_trash_regions = {
             100 : regions_dict["Overworld"],
             200 : regions_dict["Dodgy Dealing"],
             300 : regions_dict["Mixing Mania"],
             400 : regions_dict["We Need To Cook"],
             500 : regions_dict["Finishing the Job"]
         }
-        cash_for_trash_locations = []
+        # Group the locations by region first, then add each region's locations in one go.
+        cash_for_trash_by_region: Dict[int, list[str]] = {threshold: [] for threshold in cash_for_trash_regions}
         for i in range(1, cash_for_trash_count + 1):
-            cash_for_trash_locations.append(f"Cash for Trash {i}, Collect {i * 10} pieces of trash")
-        cash_for_trash_locations_dict = get_location_names_with_ids(cash_for_trash_locations)
-        regions[ceil(201 / 100) * 100].add_locations(cash_for_trash_locations_dict, Schedule1Location)
+            pieces_of_trash = i * 10
+            threshold = ceil(pieces_of_trash / 100) * 100
+            cash_for_trash_by_region[threshold].append(f"Cash for Trash {i}, Collect {pieces_of_trash} pieces of trash")
+
+        for threshold, location_names in cash_for_trash_by_region.items():
+            if location_names:  # Only add if there are locations
+                cash_for_trash_regions[threshold].add_locations(
+                    get_location_names_with_ids(location_names), Schedule1Location
+                )
