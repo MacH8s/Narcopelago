@@ -40,8 +40,7 @@
         "modern_id": 8
     },
     "Westville Region Unlock": {
-        "classification": {"!randomize_customers" : ["PROGRESSION", "USEFUL"],
-                           "default" : ["USEFUL"]},
+        "classification": {"default" : ["PROGRESSION", "USEFUL"]},
         "tags": ["Level Up Reward"],
         "modern_id": 9
     },

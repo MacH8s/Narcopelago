@@ -6,7 +6,7 @@
         }
     },
     "Northtown": {
-        "connections": {"Westville": {"randomize_level_unlocks&!randomize_customers" : {"has": "Westville Region Unlock"}},
+        "connections": {"Westville": {"randomize_level_unlocks" : {"has": "Westville Region Unlock"}},
                         "Weed Recipe Checks": {"randomize_level_unlocks" : {"has": "Mixing Station Unlock"}}}
     },
     "Westville": {
