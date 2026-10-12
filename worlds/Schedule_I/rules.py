@@ -68,8 +68,26 @@ def referenced_item_names(method_name: str, value: Any) -> list[str]:
     return []
 
 
-def build_requirement_check(world: Schedule1World, method_name: str, value: Any) -> Callable[[CollectionState], bool]:
-    """Build a requirement check function based on the method name and value from JSON."""
+def build_requirement_check(world: Schedule1World, method_name: str, value: Any, entrance: Any = None) -> Callable[[CollectionState], bool]:
+    """
+    Build a requirement check function based on the method name and value from JSON.
+
+    entrance: the Entrance the rule is being built for, if any. Only needed by can_reach, which
+              must register an indirect condition on it.
+    """
+
+    if method_name == "can_reach":
+        # value is a region name. Lets an entrance be gated on another region being reachable,
+        # which item checks cannot express.
+        if entrance is None:
+            raise ValueError("A 'can_reach' requirement is only supported on region connections.")
+        try:
+            target_region = world.get_region(value)
+        except KeyError:
+            raise ValueError(f"Unknown region '{value}' in a 'can_reach' requirement.") from None
+        # Without this, AP does not re-check the entrance when the target region becomes reachable.
+        world.multiworld.register_indirect_condition(target_region, entrance)
+        return lambda state, r=value: state.can_reach_region(r, world.player)
 
     # A misspelled item name can never be satisfied, which quietly weakens or over-tightens
     # logic depending on the check it sits in. Catch it at generation time instead.
@@ -130,11 +148,11 @@ def build_requirement_check(world: Schedule1World, method_name: str, value: Any)
     # would silently drop the requirement from logic, so fail loudly instead.
     raise ValueError(
         f"Unknown requirement method '{method_name}' in the JSON data. "
-        f"Supported methods: has, has_any, has_all, has_all_counts, has_from_list."
+        f"Supported methods: has, has_any, has_all, has_all_counts, has_from_list, can_reach."
     )
 
 
-def build_rule_from_requirements(world: Schedule1World, requirements: Union[bool, Dict[str, Any]], combine_people_unlocks: bool = True) -> Callable[[CollectionState], bool]:
+def build_rule_from_requirements(world: Schedule1World, requirements: Union[bool, Dict[str, Any]], combine_people_unlocks: bool = True, entrance: Any = None) -> Callable[[CollectionState], bool]:
     """
     Build a rule function from the requirements structure.
 
@@ -161,7 +179,7 @@ def build_rule_from_requirements(world: Schedule1World, requirements: Union[bool
         
         check_functions = []
         for method_name, value in checks.items():
-            check_func = build_requirement_check(world, method_name, value)
+            check_func = build_requirement_check(world, method_name, value, entrance)
             check_functions.append(check_func)
         
         if check_functions:
@@ -222,7 +240,7 @@ def set_all_entrance_rules(world: Schedule1World, regionData) -> None:
                 continue
             
             entrance = entrances_dict[entrance_name]
-            rule = build_rule_from_requirements(world, requirements)
+            rule = build_rule_from_requirements(world, requirements, entrance=entrance)
             set_rule(entrance, rule)
 
 

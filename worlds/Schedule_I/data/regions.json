@@ -10,7 +10,8 @@
                         "Weed Recipe Checks": {"randomize_level_unlocks" : {"has": "Mixing Station Unlock"}}}
     },
     "Westville": {
-        "connections": {"Downtown": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Westville": 2}}},
+        "connections": {"Downtown": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Westville": 2}},
+                                    "!randomize_cartel_influence&!randomize_customers" : {"can_reach": "Unfavourable Agreements"}},
                         "Meth Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk2 Unlock",  "Mixing Station Unlock"]],
                                                                             "has" : "Warehouse Access"},
                                                "randomize_suppliers" : {"has": "Shirley Watts Unlocked"},
@@ -18,13 +19,15 @@
     },
     "Downtown": {
         "connections": {"Docks": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Downtown": 7}},
+                                  "!randomize_cartel_influence&!randomize_customers" : {"can_reach": "Unfavourable Agreements"},
                                   "randomize_level_unlocks" : {"has": "Fertilizer Unlock"}},
                         "Vibin' on the 'Cybin": {"randomize_level_unlocks" : {"has" : "Warehouse Access"},
                                                  "randomize_suppliers" : {"has": "Fungal Phil Unlocked"},
                                                  "randomize_customers&!randomize_suppliers" : {"has_any" : [["Elizabeth Homley Unlocked", "Kevin Oakley Unlocked"]]}}}
     },
     "Docks": {
-        "connections": {"Suburbia": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Docks": 7}}},
+        "connections": {"Suburbia": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Docks": 7}},
+                                     "!randomize_cartel_influence&!randomize_customers" : {"can_reach": "Unfavourable Agreements"}},
                         "Cocaine Recipe Checks": {"randomize_level_unlocks" : {"has_any": [["Mixing Station Mk2 Unlock",  "Mixing Station Unlock"]],
                                                                "has_all" : ["Cauldron Unlock", "Gasoline Unlock", "Warehouse Access"]},
                                   "randomize_suppliers" : {"has": "Salvador Moreno Unlocked"},
@@ -32,6 +35,7 @@
     },
     "Suburbia": {
         "connections": {"Uptown": {"randomize_cartel_influence&!randomize_customers" : {"has_all_counts": {"Cartel Influence, Suburbia": 7}},
+                                  "!randomize_cartel_influence&!randomize_customers" : {"can_reach": "Unfavourable Agreements"},
                                   "randomize_level_unlocks" : {"has": "Drying Rack Unlock"}}}
     },
     "Uptown": {
